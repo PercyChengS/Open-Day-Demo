@@ -7,7 +7,7 @@
 | Min 1 | Hook: Open with familiar app logos (WhatsApp etc.), ask what they have in common | / |
 | Min 2 | What Is the Cloud?: Explain architecture (laptop -> server -> devices) and show AWS global map. | / |
 | Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | `1. sudo systemctl start nginx`<br/>`2. sudo systemctl status nginx`<br/>`3. Press 'q' to exit status view` |
-| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `1. cd /var/www/`<br/>`2. sudo git clone https://github.com/ngsanluk/bootstrap-album` |
+| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `1. cd /var/www/`<br/>`2. sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `1. cd /var/www/album1/css`<br/>`2. wget -O style.css https://raw.githubusercontent.com/ngsanluk/bootstrap-album/main/css/style.css` |
 | Min 6 | Change 2 (Replace photos): Navigate to album1, replace existing images with new ones, refresh website. | `1. scp /Users/**User**/Downloads/images/* root@ur_ip:/var/www/album1/images/` |
 | Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `1. cd /var/www/album1`<br/>`2. nano index.html`<br/>`3. Paste the HKO weather code`<br/>`4. Ctrl+O, Enter to save`<br/>`5. Ctrl+X to exit`<br/>`6. Refresh website` |
