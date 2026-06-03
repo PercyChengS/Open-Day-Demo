@@ -1,5 +1,30 @@
 # Open Day Demo - Cloud Architecture & Web Development
 
+## Check List / Reminders
+
+### Demo Computer (PC 2):
+1. Terminal (Open two tabs)
+2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) ready to copy the code
+3. Login:
+   - 3.1. `ssh root@47.81.211.14`
+   - 3.2. Password: `S33D!Eatt0Fun`
+4. Restore the demo:
+   - 4.1. `cd /var/www`
+   - 4.2. Remove the previous album: `rm -r album1`
+   - 4.3. Download and deploy from GitHub:
+     ```
+     sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo
+     ```
+5. Ensure `/Users/JOHN/Downloads/images` has the demo photos installed
+   *(⚠️ Change path according to your local computer)*
+
+### PPT Computer (PC 1):
+1. Open the PPT presentation
+2. Open the demo website: http://47.81.211.14
+3. In Chrome, press `Ctrl + Shift + I` (Mac: `Cmd + Option + I`) to open **Developer Tools**. Navigate to the **Network** tab and check **Disable cache**. Keep this panel open throughout the demo to ensure every refresh loads the latest files from the server.
+
+---
+
 ## Demo Timeline & Instructions
 
 | Time | Instruction | Command |
