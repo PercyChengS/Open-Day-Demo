@@ -36,6 +36,12 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
 ```html
 <!-- HKO 9-Day Weather Forecast Widget -->
 <div id="hko-weather-widget">
+
+  <!-- 提示文字在藍色框內 -->
+  <p id="hko-swipe-hint">
+    ← 左右拖動以查看 9 天預報 &nbsp;/&nbsp; Swipe left-right to view 9-day forecast →
+  </p>
+
   <div class="hko-weather-loading">載入天氣預報中...</div>
 </div>
 
@@ -46,6 +52,21 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
     -webkit-overflow-scrolling: touch;
     background: #174f8f;
     font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
+    position: relative;
+    z-index: 9999;
+    padding-bottom: 12px;
+  }
+
+  #hko-swipe-hint {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14px;
+    margin: 6px 0 4px 0;
+    padding: 0;
+    font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
+    letter-spacing: 0.5px;
+    position: sticky;
+    left: 0;
   }
 
   .hko-weather-row {
@@ -145,12 +166,22 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
   }
 
   #hko-weather-widget::-webkit-scrollbar {
-    height: 6px;
+    height: 16px;
+  }
+
+  #hko-weather-widget::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
   }
 
   #hko-weather-widget::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.70);
     border-radius: 10px;
+    border: 3px solid #174f8f;
+  }
+
+  #hko-weather-widget::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.95);
   }
 
   @media (max-width: 768px) {
@@ -224,7 +255,6 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
         if (!response.ok) {
           throw new Error("HKO API request failed. Status: " + response.status);
         }
-
         return response.json();
       })
       .then(function (data) {
@@ -241,45 +271,21 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
         forecasts.forEach(function (item) {
           var dateText = formatHKODate(item.forecastDate);
           var weekText = item.week || "";
-          var iconUrl = getHKOIconUrl(item.ForecastIcon);
+          var iconUrl  = getHKOIconUrl(item.ForecastIcon);
 
-          var minTemp =
-            item.forecastMintemp && item.forecastMintemp.value
-              ? item.forecastMintemp.value
-              : "";
-
-          var maxTemp =
-            item.forecastMaxtemp && item.forecastMaxtemp.value
-              ? item.forecastMaxtemp.value
-              : "";
-
-          var minRH =
-            item.forecastMinrh && item.forecastMinrh.value
-              ? item.forecastMinrh.value
-              : "";
-
-          var maxRH =
-            item.forecastMaxrh && item.forecastMaxrh.value
-              ? item.forecastMaxrh.value
-              : "";
-
+          var minTemp  = item.forecastMintemp && item.forecastMintemp.value ? item.forecastMintemp.value : "";
+          var maxTemp  = item.forecastMaxtemp && item.forecastMaxtemp.value ? item.forecastMaxtemp.value : "";
+          var minRH    = item.forecastMinrh   && item.forecastMinrh.value   ? item.forecastMinrh.value   : "";
+          var maxRH    = item.forecastMaxrh   && item.forecastMaxrh.value   ? item.forecastMaxrh.value   : "";
           var windText = simplifyWind(item.forecastWind || "");
 
           html +=
             '<div class="hko-weather-card">' +
-              '<div class="hko-date">' + dateText + '</div>' +
+              '<div class="hko-date">'  + dateText + '</div>' +
               '<div class="hko-week">(' + weekText + ')</div>' +
-
               '<img class="hko-icon" src="' + iconUrl + '" alt="' + escapeHTML(item.forecastWeather || "weather icon") + '">' +
-
-              '<div class="hko-temp">' +
-                minTemp + ' | ' + maxTemp + '°C' +
-              '</div>' +
-
-              '<div class="hko-humidity">' +
-                minRH + ' - ' + maxRH + '%' +
-              '</div>' +
-
+              '<div class="hko-temp">'     + minTemp + ' | ' + maxTemp + '°C</div>' +
+              '<div class="hko-humidity">' + minRH   + ' - ' + maxRH   + '%</div>'  +
               '<div class="hko-wind">' +
                 '<span class="hko-umbrella">☂️</span>' +
                 '<span class="hko-wind-text">' + escapeHTML(windText) + '</span>' +
@@ -289,27 +295,40 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
 
         html += "</div>";
 
-        container.innerHTML = html;
+        // ✅ 只替換 loading div，保留提示文字
+        var loadingDiv = container.querySelector(".hko-weather-loading");
+        if (loadingDiv) {
+          loadingDiv.outerHTML = html;
+        } else {
+          container.insertAdjacentHTML("beforeend", html);
+        }
       })
       .catch(function (error) {
         console.error("HKO weather widget error:", error);
 
-        container.innerHTML =
-          '<div class="hko-weather-error">' +
-            '未能載入香港天文台天氣預報。<br>' +
-            '請檢查瀏覽器 Console 或網站是否阻擋外部 API。' +
-          '</div>';
+        // ✅ 只替換 loading div，保留提示文字
+        var loadingDiv = container.querySelector(".hko-weather-loading");
+        if (loadingDiv) {
+          loadingDiv.outerHTML =
+            '<div class="hko-weather-error">' +
+              '未能載入香港天文台天氣預報。<br>' +
+              '請檢查瀏覽器 Console 或網站是否阻擋外部 API。' +
+            '</div>';
+        } else {
+          container.insertAdjacentHTML("beforeend",
+            '<div class="hko-weather-error">' +
+              '未能載入香港天文台天氣預報。<br>' +
+              '請檢查瀏覽器 Console 或網站是否阻擋外部 API。' +
+            '</div>'
+          );
+        }
       });
   }
 
   function formatHKODate(dateString) {
-    if (!dateString || dateString.length !== 8) {
-      return "";
-    }
-
+    if (!dateString || dateString.length !== 8) return "";
     var month = Number(dateString.substring(4, 6));
-    var day = Number(dateString.substring(6, 8));
-
+    var day   = Number(dateString.substring(6, 8));
     return month + "月" + day + "日";
   }
 
@@ -318,10 +337,7 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
   }
 
   function simplifyWind(windText) {
-    if (!windText) {
-      return "";
-    }
-
+    if (!windText) return "";
     if (windText.indexOf("微風") !== -1) return "低";
     if (windText.indexOf("和緩") !== -1) return "低";
     if (windText.indexOf("清勁") !== -1) return "中";
@@ -329,17 +345,16 @@ Insert the following code between the `<body>` tags in `/var/www/album1/index.ht
     if (windText.indexOf("烈風") !== -1) return "高";
     if (windText.indexOf("暴風") !== -1) return "高";
     if (windText.indexOf("颶風") !== -1) return "高";
-
     return "中";
   }
 
   function escapeHTML(text) {
     return String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+      .replace(/&/g,  "&amp;")
+      .replace(/</g,  "&lt;")
+      .replace(/>/g,  "&gt;")
+      .replace(/"/g,  "&quot;")
+      .replace(/'/g,  "&#039;");
   }
 </script>
 ```
