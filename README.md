@@ -32,7 +32,7 @@
 | Min 1 | Hook: Open with familiar app logos (WhatsApp etc.), ask what they have in common | / |
 | Min 2 | What Is the Cloud?: Explain architecture (laptop -> server -> devices) and show AWS global map. | / |
 | Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | `sudo systemctl start nginx`<br/>`sudo systemctl status nginx`<br/>`Press 'q' to exit status view` |
-| Min 3 (con't) | Prepare directory for deployment. | `rm -r album1` |
+| Min 3 (con't) | Prepare directory for deployment. | `cd /var/www/`<br/>`rm -r album1` |
 | Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `cd /var/www/`<br/>`sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `cd /var/www/album1/css`<br/>`wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
 | Min 6 | Change 2 (Replace photos): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>`scp $env:USERPROFILE\Downloads\images\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>`scp ~/Downloads/images/* root@47.81.211.14:/var/www/album1/images/` |
