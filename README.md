@@ -15,7 +15,7 @@
      ```bash
      sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo
      ```
-5. Ensure `$env:USERPROFILE/Downloads/images` has the demo photos installed from the GitHub repository.
+5. Ensure the local computer `$env:USERPROFILE/Downloads/images` has the demo photos installed from the GitHub repository.
 
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
