@@ -36,7 +36,7 @@
 | Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `cd /var/www/`<br/>`sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `cd /var/www/album1/css`<br/>`wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
 | Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>`scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>`scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/` |
-| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `cd /var/www/album1`<br/>`nano index.html`<br/>`Insert the code between <body> and </body> (Copy From GitHub)`<br/>`Press Control+X, Y, Enter` |
+| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `cd /var/www/album1`<br/>`rm -r index.html`<br/>`nano index.html`<br/>`Replace the whole code that from GitHub`<br/>`Press Control+X, Y, Enter` |
 | Min 8 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
 | Min 9 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
 | Min 10 | Closing: QR code still live, final concluding statement. | / |
@@ -57,329 +57,360 @@ This demo showcases fundamental cloud architecture and web development concepts 
 
 ## Min 7: HKO Weather Forecast API Code
 
-Insert the following code between the `<body>` and `</body>` tags in `/var/www/album1/index.html`:
+Replace the whole code with the following in `/var/www/album1/index.html`:
 
 ```html
-<!-- HKO 9-Day Weather Forecast Widget -->
-<div id="hko-weather-widget">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap Album Demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
 
-  <!-- 提示文字在藍色框內 -->
-  <p id="hko-swipe-hint">
-    ← 左右拖動以查看 9 天預報 &nbsp;/&nbsp; Swipe left-right to view 9-day forecast →
-  </p>
+    <h1>Photo Album Demo</h1>
 
-  <div class="hko-weather-loading">載入天氣預報中...</div>
-</div>
+    <!-- ===== MUSIC PART START ===== -->
+    <audio id="bgMusic" loop muted autoplay>
+      <source src="./images/demo.mp3" type="audio/mpeg" />
+    </audio>
 
-<style>
-  #hko-weather-widget {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    background: #174f8f;
-    font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
-    position: relative;
-    z-index: 9999;
-    padding-bottom: 12px;
-  }
+    <div class="text-center my-2" style="position: relative; z-index: 99999;">
+      <button id="musicToggle" onclick="toggleMusic()" style="
+        position: relative;
+        z-index: 99999;
+        background: rgba(0, 0, 0, 0.65);
+        color: #ffffff;
+        border: 2px solid #ffffff;
+        border-radius: 30px;
+        padding: 10px 28px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        letter-spacing: 1px;
+        box-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 24px rgba(255,255,255,0.2);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        transition: all 0.2s ease;
+      ">
+        🔇 Music OFF
+      </button>
+    </div>
+    <!-- ===== MUSIC PART END ===== -->
 
-  #hko-swipe-hint {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 14px;
-    margin: 6px 0 4px 0;
-    padding: 0;
-    font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
-    letter-spacing: 0.5px;
-    position: sticky;
-    left: 0;
-  }
+    <!-- HKO 9-Day Weather Forecast Widget -->
+    <div id="hko-weather-widget">
+      <p id="hko-swipe-hint">
+        ← 左右拖動以查看 9 天預報 &nbsp;/&nbsp; Swipe left-right to view 9-day forecast →
+      </p>
+      <div class="hko-weather-loading">載入天氣預報中...</div>
+    </div>
 
-  .hko-weather-row {
-    display: flex;
-    min-width: 1500px;
-    background: #174f8f;
-  }
+    <style>
+      #hko-weather-widget {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        background: #174f8f;
+        font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
+        position: relative;
+        z-index: 9999;
+        padding-bottom: 12px;
+      }
+      #hko-swipe-hint {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 14px;
+        margin: 6px 0 4px 0;
+        padding: 0;
+        font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
+        letter-spacing: 0.5px;
+        position: sticky;
+        left: 0;
+      }
+      .hko-weather-row {
+        display: flex;
+        min-width: 1500px;
+        background: #174f8f;
+      }
+      .hko-weather-card {
+        flex: 0 0 166px;
+        width: 166px;
+        background: linear-gradient(180deg, #1e5a9e 0%, #174f8f 100%);
+        color: #ffffff;
+        text-align: center;
+        padding: 7px 6px 10px;
+        border-right: 5px solid rgba(255, 255, 255, 0.22);
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .hko-weather-card:last-child { border-right: none; }
+      .hko-date {
+        font-size: 23px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 3px;
+        white-space: nowrap;
+      }
+      .hko-week {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 10px;
+        white-space: nowrap;
+      }
+      .hko-icon {
+        width: 84px;
+        height: 84px;
+        object-fit: contain;
+        margin-bottom: 8px;
+      }
+      .hko-temp, .hko-humidity {
+        font-size: 21px;
+        font-weight: 800;
+        line-height: 1.15;
+        white-space: nowrap;
+        letter-spacing: -0.5px;
+      }
+      .hko-temp { margin-bottom: 3px; }
+      .hko-humidity { margin-bottom: 10px; }
+      .hko-wind {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .hko-umbrella { font-size: 25px; line-height: 1; flex-shrink: 0; }
+      .hko-wind-text {
+        display: inline-block;
+        max-width: 88px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .hko-weather-loading, .hko-weather-error {
+        color: #ffffff;
+        font-size: 18px;
+        padding: 18px;
+        text-align: center;
+      }
+      #hko-weather-widget::-webkit-scrollbar { height: 16px; }
+      #hko-weather-widget::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.10);
+        border-radius: 10px;
+      }
+      #hko-weather-widget::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.70);
+        border-radius: 10px;
+        border: 3px solid #174f8f;
+      }
+      #hko-weather-widget::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.95);
+      }
+      @media (max-width: 768px) {
+        .hko-weather-row { min-width: 1350px; }
+        .hko-weather-card { flex: 0 0 150px; width: 150px; padding: 6px 5px 9px; }
+        .hko-date { font-size: 20px; }
+        .hko-week { font-size: 17px; margin-bottom: 8px; }
+        .hko-icon { width: 76px; height: 76px; margin-bottom: 7px; }
+        .hko-temp, .hko-humidity { font-size: 18px; letter-spacing: -0.8px; }
+        .hko-humidity { margin-bottom: 8px; }
+        .hko-wind { font-size: 17px; }
+        .hko-umbrella { font-size: 22px; }
+        .hko-wind-text { max-width: 75px; }
+      }
 
-  .hko-weather-card {
-    flex: 0 0 166px;
-    width: 166px;
-    background: linear-gradient(180deg, #1e5a9e 0%, #174f8f 100%);
-    color: #ffffff;
-    text-align: center;
-    padding: 7px 6px 10px;
-    border-right: 5px solid rgba(255, 255, 255, 0.22);
-    box-sizing: border-box;
-    overflow: hidden;
-  }
+      /* ===== MUSIC BUTTON HOVER ===== */
+      #musicToggle:hover {
+        background: rgba(0, 0, 0, 0.85) !important;
+        box-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.4) !important;
+        transform: scale(1.05);
+      }
+      #musicToggle:active {
+        transform: scale(0.97);
+      }
+    </style>
 
-  .hko-weather-card:last-child {
-    border-right: none;
-  }
-
-  .hko-date {
-    font-size: 23px;
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 3px;
-    white-space: nowrap;
-  }
-
-  .hko-week {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 10px;
-    white-space: nowrap;
-  }
-
-  .hko-icon {
-    width: 84px;
-    height: 84px;
-    object-fit: contain;
-    margin-bottom: 8px;
-  }
-
-  .hko-temp,
-  .hko-humidity {
-    font-size: 21px;
-    font-weight: 800;
-    line-height: 1.15;
-    white-space: nowrap;
-    letter-spacing: -0.5px;
-  }
-
-  .hko-temp {
-    margin-bottom: 3px;
-  }
-
-  .hko-humidity {
-    margin-bottom: 10px;
-  }
-
-  .hko-wind {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .hko-umbrella {
-    font-size: 25px;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-
-  .hko-wind-text {
-    display: inline-block;
-    max-width: 88px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .hko-weather-loading,
-  .hko-weather-error {
-    color: #ffffff;
-    font-size: 18px;
-    padding: 18px;
-    text-align: center;
-  }
-
-  #hko-weather-widget::-webkit-scrollbar {
-    height: 16px;
-  }
-
-  #hko-weather-widget::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.10);
-    border-radius: 10px;
-  }
-
-  #hko-weather-widget::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.70);
-    border-radius: 10px;
-    border: 3px solid #174f8f;
-  }
-
-  #hko-weather-widget::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.95);
-  }
-
-  @media (max-width: 768px) {
-    .hko-weather-row {
-      min-width: 1350px;
-    }
-
-    .hko-weather-card {
-      flex: 0 0 150px;
-      width: 150px;
-      padding: 6px 5px 9px;
-    }
-
-    .hko-date {
-      font-size: 20px;
-    }
-
-    .hko-week {
-      font-size: 17px;
-      margin-bottom: 8px;
-    }
-
-    .hko-icon {
-      width: 76px;
-      height: 76px;
-      margin-bottom: 7px;
-    }
-
-    .hko-temp,
-    .hko-humidity {
-      font-size: 18px;
-      letter-spacing: -0.8px;
-    }
-
-    .hko-humidity {
-      margin-bottom: 8px;
-    }
-
-    .hko-wind {
-      font-size: 17px;
-    }
-
-    .hko-umbrella {
-      font-size: 22px;
-    }
-
-    .hko-wind-text {
-      max-width: 75px;
-    }
-  }
-</style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    loadHKOForecast();
-  });
-
-  function loadHKOForecast() {
-    var container = document.getElementById("hko-weather-widget");
-
-    if (!container) {
-      console.error("HKO widget container not found.");
-      return;
-    }
-
-    var apiUrl =
-      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";
-
-    fetch(apiUrl)
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error("HKO API request failed. Status: " + response.status);
-        }
-        return response.json();
-      })
-      .then(function (data) {
-        console.log("HKO API data:", data);
-
-        var forecasts = data.weatherForecast;
-
-        if (!forecasts || !forecasts.length) {
-          throw new Error("No forecast data found.");
-        }
-
-        var html = '<div class="hko-weather-row">';
-
-        forecasts.forEach(function (item) {
-          var dateText = formatHKODate(item.forecastDate);
-          var weekText = item.week || "";
-          var iconUrl  = getHKOIconUrl(item.ForecastIcon);
-
-          var minTemp  = item.forecastMintemp && item.forecastMintemp.value ? item.forecastMintemp.value : "";
-          var maxTemp  = item.forecastMaxtemp && item.forecastMaxtemp.value ? item.forecastMaxtemp.value : "";
-          var minRH    = item.forecastMinrh   && item.forecastMinrh.value   ? item.forecastMinrh.value   : "";
-          var maxRH    = item.forecastMaxrh   && item.forecastMaxrh.value   ? item.forecastMaxrh.value   : "";
-          var windText = simplifyWind(item.forecastWind || "");
-
-          html +=
-            '<div class="hko-weather-card">' +
-              '<div class="hko-date">'  + dateText + '</div>' +
-              '<div class="hko-week">(' + weekText + ')</div>' +
-              '<img class="hko-icon" src="' + iconUrl + '" alt="' + escapeHTML(item.forecastWeather || "weather icon") + '">' +
-              '<div class="hko-temp">'     + minTemp + ' | ' + maxTemp + '°C</div>' +
-              '<div class="hko-humidity">' + minRH   + ' - ' + maxRH   + '%</div>'  +
-              '<div class="hko-wind">' +
-                '<span class="hko-umbrella">☂️</span>' +
-                '<span class="hko-wind-text">' + escapeHTML(windText) + '</span>' +
-              '</div>' +
-            '</div>';
-        });
-
-        html += "</div>";
-
-        // ✅ 只替換 loading div，保留提示文字
-        var loadingDiv = container.querySelector(".hko-weather-loading");
-        if (loadingDiv) {
-          loadingDiv.outerHTML = html;
-        } else {
-          container.insertAdjacentHTML("beforeend", html);
-        }
-      })
-      .catch(function (error) {
-        console.error("HKO weather widget error:", error);
-
-        // ✅ 只替換 loading div，保留提示文字
-        var loadingDiv = container.querySelector(".hko-weather-loading");
-        if (loadingDiv) {
-          loadingDiv.outerHTML =
-            '<div class="hko-weather-error">' +
-              '未能載入香港天文台天氣預報。<br>' +
-              '請檢查瀏覽器 Console 或網站是否阻擋外部 API。' +
-            '</div>';
-        } else {
-          container.insertAdjacentHTML("beforeend",
-            '<div class="hko-weather-error">' +
-              '未能載入香港天文台天氣預報。<br>' +
-              '請檢查瀏覽器 Console 或網站是否阻擋外部 API。' +
-            '</div>'
-          );
-        }
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadHKOForecast();
       });
-  }
+      function loadHKOForecast() {
+        var container = document.getElementById("hko-weather-widget");
+        if (!container) { console.error("HKO widget container not found."); return; }
+        var apiUrl = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";
+        fetch(apiUrl)
+          .then(function (response) {
+            if (!response.ok) throw new Error("HKO API request failed. Status: " + response.status);
+            return response.json();
+          })
+          .then(function (data) {
+            var forecasts = data.weatherForecast;
+            if (!forecasts || !forecasts.length) throw new Error("No forecast data found.");
+            var html = '<div class="hko-weather-row">';
+            forecasts.forEach(function (item) {
+              var dateText = formatHKODate(item.forecastDate);
+              var weekText = item.week || "";
+              var iconUrl  = getHKOIconUrl(item.ForecastIcon);
+              var minTemp  = item.forecastMintemp && item.forecastMintemp.value ? item.forecastMintemp.value : "";
+              var maxTemp  = item.forecastMaxtemp && item.forecastMaxtemp.value ? item.forecastMaxtemp.value : "";
+              var minRH    = item.forecastMinrh   && item.forecastMinrh.value   ? item.forecastMinrh.value   : "";
+              var maxRH    = item.forecastMaxrh   && item.forecastMaxrh.value   ? item.forecastMaxrh.value   : "";
+              var windText = simplifyWind(item.forecastWind || "");
+              html +=
+                '<div class="hko-weather-card">' +
+                  '<div class="hko-date">'  + dateText + '</div>' +
+                  '<div class="hko-week">(' + weekText + ')</div>' +
+                  '<img class="hko-icon" src="' + iconUrl + '" alt="' + escapeHTML(item.forecastWeather || "weather icon") + '">' +
+                  '<div class="hko-temp">'     + minTemp + ' | ' + maxTemp + '°C</div>' +
+                  '<div class="hko-humidity">' + minRH   + ' - ' + maxRH   + '%</div>'  +
+                  '<div class="hko-wind">' +
+                    '<span class="hko-umbrella">☂️</span>' +
+                    '<span class="hko-wind-text">' + escapeHTML(windText) + '</span>' +
+                  '</div>' +
+                '</div>';
+            });
+            html += "</div>";
+            var loadingDiv = container.querySelector(".hko-weather-loading");
+            if (loadingDiv) { loadingDiv.outerHTML = html; }
+            else { container.insertAdjacentHTML("beforeend", html); }
+          })
+          .catch(function (error) {
+            console.error("HKO weather widget error:", error);
+            var loadingDiv = container.querySelector(".hko-weather-loading");
+            var errHTML = '<div class="hko-weather-error">未能載入香港天文台天氣預報。<br>請檢查瀏覽器 Console 或網站是否阻擋外部 API。</div>';
+            if (loadingDiv) { loadingDiv.outerHTML = errHTML; }
+            else { container.insertAdjacentHTML("beforeend", errHTML); }
+          });
+      }
+      function formatHKODate(dateString) {
+        if (!dateString || dateString.length !== 8) return "";
+        var month = Number(dateString.substring(4, 6));
+        var day   = Number(dateString.substring(6, 8));
+        return month + "月" + day + "日";
+      }
+      function getHKOIconUrl(iconCode) {
+        return "https://www.hko.gov.hk/images/HKOWxIconOutline/pic" + iconCode + ".png";
+      }
+      function simplifyWind(windText) {
+        if (!windText) return "";
+        if (windText.indexOf("微風") !== -1) return "低";
+        if (windText.indexOf("和緩") !== -1) return "低";
+        if (windText.indexOf("清勁") !== -1) return "中";
+        if (windText.indexOf("強風") !== -1) return "中高";
+        if (windText.indexOf("烈風") !== -1) return "高";
+        if (windText.indexOf("暴風") !== -1) return "高";
+        if (windText.indexOf("颶風") !== -1) return "高";
+        return "中";
+      }
+      function escapeHTML(text) {
+        return String(text)
+          .replace(/&/g,  "&amp;")
+          .replace(/</g,  "&lt;")
+          .replace(/>/g,  "&gt;")
+          .replace(/"/g,  "&quot;")
+          .replace(/'/g,  "&#039;");
+      }
+    </script>
 
-  function formatHKODate(dateString) {
-    if (!dateString || dateString.length !== 8) return "";
-    var month = Number(dateString.substring(4, 6));
-    var day   = Number(dateString.substring(6, 8));
-    return month + "月" + day + "日";
-  }
+    <hr />
 
-  function getHKOIconUrl(iconCode) {
-    return "https://www.hko.gov.hk/images/HKOWxIconOutline/pic" + iconCode + ".png";
-  }
+    <div class="container text-center">
+      <div class="row justify-content-md-center">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo01.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo02.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo03.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo04.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo05.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo06.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo07.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo08.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo09.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo10.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo11.png" alt="photo" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <img class="img-fluid" src="./images/photo12.png" alt="photo" />
+        </div>
+      </div>
+    </div>
 
-  function simplifyWind(windText) {
-    if (!windText) return "";
-    if (windText.indexOf("微風") !== -1) return "低";
-    if (windText.indexOf("和緩") !== -1) return "低";
-    if (windText.indexOf("清勁") !== -1) return "中";
-    if (windText.indexOf("強風") !== -1) return "中高";
-    if (windText.indexOf("烈風") !== -1) return "高";
-    if (windText.indexOf("暴風") !== -1) return "高";
-    if (windText.indexOf("颶風") !== -1) return "高";
-    return "中";
-  }
+    <hr />
 
-  function escapeHTML(text) {
-    return String(text)
-      .replace(/&/g,  "&amp;")
-      .replace(/</g,  "&lt;")
-      .replace(/>/g,  "&gt;")
-      .replace(/"/g,  "&quot;")
-      .replace(/'/g,  "&#039;");
-  }
-</script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- ===== MUSIC JS START ===== -->
+    <script>
+      const audio = document.getElementById('bgMusic');
+      const btn = document.getElementById('musicToggle');
+      let isPlaying = false;
+
+      // 第一次任意點擊 → 解除靜音並播放
+      document.addEventListener('click', function startOnInteraction() {
+        if (!isPlaying) {
+          audio.muted = false;
+          audio.play().then(() => {
+            isPlaying = true;
+            btn.textContent = '🔊 Music ON';
+          }).catch(() => {});
+        }
+        document.removeEventListener('click', startOnInteraction);
+      }, { once: true });
+
+      // 按鈕 toggle：播放 ↔ 暫停
+      function toggleMusic() {
+        if (isPlaying) {
+          audio.pause();
+          isPlaying = false;
+          btn.textContent = '🔇 Music OFF';
+        } else {
+          audio.muted = false;
+          audio.play().then(() => {
+            isPlaying = true;
+            btn.textContent = '🔊 Music ON';
+          });
+        }
+      }
+    </script>
+    <!-- ===== MUSIC JS END ===== -->
+
+  </body>
+</html>
