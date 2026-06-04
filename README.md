@@ -4,24 +4,23 @@
 
 ### Demo Computer (PC 2):
 1. Terminal (Open two tabs)
-2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) ready to copy the code
+2. Open GitHub ([https://github.com/PercyChengS/Open-Day-Demo/tree/main](https://github.com/PercyChengS/Open-Day-Demo/tree/main)) ready to copy the code
 3. Login:
    - 3.1. `ssh root@47.81.211.14`
    - 3.2. Password: `S33D!Eatt0Fun`
 4. Restore the demo:
    - 4.1. `cd /var/www`
    - 4.2. Remove the previous album: `rm -r album1`
-   - 4.3. Download and deploy from GitHub:
-     ```
+   - 4.3. Download nginx template from git:
+     ```bash
      sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo
      ```
-5. Ensure `/Users/JOHN/Downloads/images` has the demo photos installed
-   *(⚠️ Change path according to your local computer)*
+5. Ensure `$env:USERPROFILE/Downloads/images` has the demo photos installed from the GitHub repository.
 
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
-2. Open the demo website: http://47.81.211.14
-3. In Chrome, press `Ctrl + Shift + I` (Mac: `Cmd + Option + I`) to open **Developer Tools**. Navigate to the **Network** tab and check **Disable cache**. Keep this panel open throughout the demo to ensure every refresh loads the latest files from the server.
+2. Open the demo website: [http://47.81.211.14](http://47.81.211.14)
+3. 在 Chrome 中，按 `Ctrl + Shift + I` (Mac: `Cmd + Option + I`) 打開「開發者工具 (Developer Tools)」。切換到 **Network (網路)** 標籤並勾選 **Disable cache (停用快取)**。只要這個面板開著，您每次重新整理都保證會抓到伺服器上最新的檔案。
 
 ---
 
@@ -31,11 +30,12 @@
 |------|-------------|---------|
 | Min 1 | Hook: Open with familiar app logos (WhatsApp etc.), ask what they have in common | / |
 | Min 2 | What Is the Cloud?: Explain architecture (laptop -> server -> devices) and show AWS global map. | / |
-| Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | `1. sudo systemctl start nginx`<br/>`2. sudo systemctl status nginx`<br/>`3. Press 'q' to exit status view`<br/>`4. rm -r album1`  |
-| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `1. cd /var/www/`<br/>`2. sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
-| Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `1. cd /var/www/album1/css`<br/>`2. sudo wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
-| Min 6 | Change 2 (Replace photos): Navigate to album1, replace existing images with new ones, refresh website. | `1. scp /Users/**User**/Downloads/images/* root@ur_ip:/var/www/album1/images/` |
-| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `1. cd /var/www/album1`<br/>`2. nano index.html`<br/>`3. Paste the HKO weather code`<br/>`4. Ctrl+O, Enter to save`<br/>`5. Ctrl+X to exit`<br/>`6. Refresh website` |
+| Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | `1. sudo systemctl start nginx`<br/>`2. sudo systemctl status nginx`<br/>`3. Press 'q' to exit status view` |
+| Min 3 (con't) | Prepare directory for deployment. | `4. rm -r album1` |
+| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `1. cd /var/www/`<br/>`2. rm -r album1`<br/>`3. sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
+| Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `1. cd /var/www/album1/css`<br/>`2. wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
+| Min 6 | Change 2 (Replace photos): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>`scp $env:USERPROFILE\Downloads\images\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>`scp ~/Downloads/images/* root@47.81.211.14:/var/www/album1/images/` |
+| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `1. cd /var/www/album1`<br/>`2. nano index.html`<br/>`3. Insert the code between <body> and </body> (Copy From GitHub)`<br/>`4. Press Control+X, Y, Enter` |
 | Min 8 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
 | Min 9 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
 | Min 10 | Closing: QR code still live, final concluding statement. | / |
@@ -56,7 +56,7 @@ This demo showcases fundamental cloud architecture and web development concepts 
 
 ## Min 7: HKO Weather Forecast API Code
 
-Insert the following code between the `<body>` tags in `/var/www/album1/index.html`:
+Insert the following code between the `<body>` and `</body>` tags in `/var/www/album1/index.html`:
 
 ```html
 <!-- HKO 9-Day Weather Forecast Widget -->
