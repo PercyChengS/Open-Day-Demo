@@ -16,7 +16,7 @@
      sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo
      ```
    - 4.4. Close the nginx: `sudo systemctl stop nginx`
-5. Ensure the local computer `$env:USERPROFILE/Downloads/images` has the demo photos installed from the GitHub repository. Download from https://github.com/PercyChengS/Open-Day-Demo/tree/main
+5. Ensure the local computer `$env:USERPROFILE/Downloads/images` has the demo photos installed from the GitHub repository. Download from [https://github.com/PercyChengS/Open-Day-Demo/tree/main](https://github.com/PercyChengS/Open-Day-Demo/tree/main)
 
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
@@ -31,12 +31,12 @@
 |------|-------------|---------|
 | Min 1 | Hook: Open with familiar app logos (WhatsApp etc.), ask what they have in common | / |
 | Min 2 | What Is the Cloud?: Explain architecture (laptop -> server -> devices) and show AWS global map. | / |
-| Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | `1. sudo systemctl start nginx`<br/>`2. sudo systemctl status nginx`<br/>`3. Press 'q' to exit status view` |
-| Min 3 (con't) | Prepare directory for deployment. | `4. rm -r album1` |
-| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `1. cd /var/www/`<br/>`2. rm -r album1`<br/>`3. sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
-| Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `1. cd /var/www/album1/css`<br/>`2. wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
+| Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | `sudo systemctl start nginx`<br/>`sudo systemctl status nginx`<br/>`Press 'q' to exit status view` |
+| Min 3 (con't) | Prepare directory for deployment. | `rm -r album1` |
+| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | `cd /var/www/`<br/>`rm -r album1`<br/>`sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
+| Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | `cd /var/www/album1/css`<br/>`wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
 | Min 6 | Change 2 (Replace photos): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>`scp $env:USERPROFILE\Downloads\images\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>`scp ~/Downloads/images/* root@47.81.211.14:/var/www/album1/images/` |
-| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `1. cd /var/www/album1`<br/>`2. nano index.html`<br/>`3. Insert the code between <body> and </body> (Copy From GitHub)`<br/>`4. Press Control+X, Y, Enter` |
+| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | `cd /var/www/album1`<br/>`nano index.html`<br/>`Insert the code between <body> and </body> (Copy From GitHub)`<br/>`Press Control+X, Y, Enter` |
 | Min 8 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
 | Min 9 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
 | Min 10 | Closing: QR code still live, final concluding statement. | / |
@@ -383,4 +383,3 @@ Insert the following code between the `<body>` and `</body>` tags in `/var/www/a
       .replace(/'/g,  "&#039;");
   }
 </script>
-```
