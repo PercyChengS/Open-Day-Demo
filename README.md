@@ -15,7 +15,7 @@
      ```bash
      sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo
      ```
-   -4.4. Close the nginx: `sudo systemctl stop nginx`
+   - 4.4. Close the nginx: `sudo systemctl stop nginx`
 5. Ensure the local computer `$env:USERPROFILE/Downloads/images` has the demo photos installed from the GitHub repository. Download from https://github.com/PercyChengS/Open-Day-Demo/tree/main
 
 ### PPT Computer (PC 1):
