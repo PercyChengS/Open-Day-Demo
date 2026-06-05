@@ -31,7 +31,7 @@
 | Min 3 (con't) | Prepare directory for deployment. | 1. `cd /var/www/`<br/>2. `rm -r album1` |
 | Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/`<br/>2. `sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | 1. `cd /var/www/album1/css`<br/>2. `wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
-| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. Password:` S33D!Eatt0Fun`<br/> <strong>Run On Server </strong><br/>3.`cd /var/www/album1`<br/>4. `rm -r index.html`<br/>5. `nano index.html`<br/>6. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music)<br/>7. `Press Control+X, Y, Enter` |
+| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. Password:`S33D!Eatt0Fun`<br/> <strong>Run On Server </strong><br/>3.`cd /var/www/album1`<br/>4. `rm -r index.html`<br/>5. `nano index.html`<br/>6. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music)<br/>7. `Press Control+X, Y, Enter` |
 | Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-7-hko-weather-forecast-api-code)<br/>4. `Press Control+X, Y, Enter` |
 | Min 8 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
 | Min 9 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
@@ -103,7 +103,7 @@ Replace the whole code with the following in `/var/www/album1/index.html`
         -webkit-backdrop-filter: blur(4px);
         transition: all 0.2s ease;
       ">
-        🔇 Music OFF
+        🔊 Music ON
       </button>
     </div>
     <!-- ===== MUSIC PART END ===== -->
@@ -165,14 +165,13 @@ Replace the whole code with the following in `/var/www/album1/index.html`
       const btn = document.getElementById('musicToggle');
       let isPlaying = false;
 
+      // 第一次任何點擊 → 解除靜音並自動播放（視為默認 ON）
       document.addEventListener('click', function startOnInteraction() {
-        if (!isPlaying) {
-          audio.muted = false;
-          audio.play().then(() => {
-            isPlaying = true;
-            btn.textContent = '🔊 Music ON';
-          }).catch(() => {});
-        }
+        audio.muted = false;
+        audio.play().then(() => {
+          isPlaying = true;
+          btn.textContent = '🔊 Music ON';
+        }).catch(() => {});
         document.removeEventListener('click', startOnInteraction);
       }, { once: true });
 
