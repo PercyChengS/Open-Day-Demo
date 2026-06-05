@@ -57,9 +57,7 @@ This demo showcases fundamental cloud architecture and web development concepts 
 
 ## How to Customize
 
-<table>
-<tr>
-<td width="50%" valign="top">
+---
 
 ### Min 6: Replace Photos & Add Music
 
@@ -200,8 +198,7 @@ Replace the whole code with the following in `/var/www/album1/index.html`
 </html>
 ```
 
-</td>
-<td width="50%" valign="top">
+---
 
 ### Min 7: HKO Weather Forecast API Code
 
@@ -282,7 +279,7 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
         html += "</div>";
         container.innerHTML = html;
       })
-      .catch(function (error) {
+      .catch(function () {
         container.innerHTML = '<div class="hko-weather-error">未能載入香港天文台天氣預報。</div>';
       });
   }
@@ -305,7 +302,3 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
   }
 </script>
 ```
-
-</td>
-</tr>
-</table>
