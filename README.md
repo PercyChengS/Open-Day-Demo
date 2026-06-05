@@ -4,7 +4,7 @@
 
 ### Demo Computer (PC 2):
 1. Terminal (Open two tabs)
-2. Open GitHub ([https://github.com/PercyChengS/Open-Day-Demo/tree/main](https://github.com/PercyChengS/Open-Day-Demo/tree/main)) ready to copy the code
+2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) ready to copy the code
 3. Login:
    - 3.1. `ssh root@47.81.211.14`
    - 3.2. Password: `S33D!Eatt0Fun`
@@ -16,12 +16,12 @@
      sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo
      ```
    - 4.4. Close the nginx: `sudo systemctl stop nginx`
-5. Ensure the local computer `$env:USERPROFILE/Downloads/SupportDoc` has the demo photos installed from the GitHub repository. Download from [https://github.com/PercyChengS/Open-Day-Demo/tree/main](https://github.com/PercyChengS/Open-Day-Demo/tree/main)
+5. Ensure the local computer `$env:USERPROFILE/Downloads/SupportDoc` has the demo photos installed from the GitHub repository. Download from https://github.com/PercyChengS/Open-Day-Demo/tree/main
 
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
-2. Open the demo website: [http://47.81.211.14](http://47.81.211.14)
-3. 在 Chrome 中，按 `Ctrl + Shift + I` (Mac: `Cmd + Option + I`) 打開「開發者工具 (Developer Tools)」。切換到 **Network (網路)** 標籤並勾選 **Disable cache (停用快取)**。只要這個面板開著，您每次重新整理都保證會抓到伺服器上最新的檔案。
+2. Open the demo website: http://47.81.211.14
+3. In Chrome, press `Ctrl + Shift + I` (Mac: `Cmd + Option + I`) to open Developer Tools. Switch to the Network tab and check Disable cache. As long as this panel is open, refreshing the page guarantees that you will fetch the latest files from the server.
 
 ---
 
@@ -35,8 +35,8 @@
 | Min 3 (con't) | Prepare directory for deployment. | 1. `cd /var/www/`<br/>2. `rm -r album1` |
 | Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/`<br/>2. `sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | 1. `cd /var/www/album1/css`<br/>2. `wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
-| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. `Password: S33D!Eatt0Fun`<br/>3. `rm -r index.html`<br/>4. `nano index.html`<br/>5. [Replace the whole code from GitHub](https://github.com/PercyChengS/Open-Day-Demo/blob/main/README.md#min-6-replace-photos--add-music)<br/>6. `Press Control+X, Y, Enter` |
-| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` copy from GitHub](https://github.com/PercyChengS/Open-Day-Demo/blob/main/README.md#min-7-hko-weather-forecast-api-code)<br/>4. `Press Control+X, Y, Enter` |
+| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. `Password: S33D!Eatt0Fun`<br/>3. `rm -r index.html`<br/>4. `nano index.html`<br/>5. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music)<br/>6. `Press Control+X, Y, Enter` |
+| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-7-hko-weather-forecast-api-code)<br/>4. `Press Control+X, Y, Enter` |
 | Min 8 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
 | Min 9 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
 | Min 10 | Closing: QR code still live, final concluding statement. | / |
@@ -198,6 +198,8 @@ Replace the whole code with the following in `/var/www/album1/index.html`
 </html>
 ```
 
+[↑ Back to Timeline](#demo-timeline--instructions)
+
 ---
 
 ### Min 7: HKO Weather Forecast API Code
@@ -302,3 +304,5 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
   }
 </script>
 ```
+
+[↑ Back to Timeline](#demo-timeline--instructions)
