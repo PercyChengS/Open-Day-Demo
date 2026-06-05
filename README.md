@@ -61,8 +61,10 @@ This demo showcases fundamental cloud architecture and web development concepts 
 
 ### Min 6: Replace Photos & Add Music
 
-Replace the whole code with the following in `/var/www/album1/index.html`
 
+
+Replace the whole code with the following in `/var/www/album1/index.html`
+[↑ Back to Timeline](#demo-timeline--instructions)
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -198,14 +200,13 @@ Replace the whole code with the following in `/var/www/album1/index.html`
 </html>
 ```
 
-[↑ Back to Timeline](#demo-timeline--instructions)
 
 ---
 
 ### Min 7: HKO Weather Forecast API Code
 
 Add the following code after `<!-- ===== MUSIC PART END ===== -->`
-
+[↑ Back to Timeline](#demo-timeline--instructions)
 ```html
 <!-- HKO 9-Day Weather Forecast Widget -->
 <div id="hko-weather-widget">
@@ -305,4 +306,4 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
 </script>
 ```
 
-[↑ Back to Timeline](#demo-timeline--instructions)
+
