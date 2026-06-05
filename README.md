@@ -471,10 +471,7 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
       crossorigin="anonymous"
     ></script>
 ```
-### Min 6: Replace Photos & Add Music
-
-
-
+### Min 8: Replace Photos & Add Music
 Insert behind <!-- ===== MUSIC PART END ===== -->
 [↑ Back to Timeline](#demo-timeline--instructions)
 ```html
