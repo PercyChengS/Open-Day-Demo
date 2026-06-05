@@ -1,6 +1,6 @@
 # Open Day Demo - Cloud Architecture & Web Development
 
-## Check List / Reminders
+## Check List / Reminders (Do Once After Each Demo!!)
 
 ### Demo Computer (PC 2):
 1. Terminal (Open two tabs)
