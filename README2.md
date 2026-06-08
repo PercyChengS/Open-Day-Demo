@@ -200,25 +200,29 @@ Replace the whole code with the following in `/var/www/album1/index.html`
 Add the following code after `<!-- ===== MUSIC PART END ===== -->`
 [↑ Back to Timeline](#demo-timeline--instructions)
 ```html
-    <!-- HKO 9-Day Weather Forecast Widget -->
+    <!-- 香港天文台 (HKO) 9 天天氣預報小工具 -->
     <div id="hko-weather-widget">
+      <!-- 滑動提示文字 -->
       <p id="hko-swipe-hint">
         ← 左右拖動以查看 9 天預報 &nbsp;/&nbsp; Swipe left-right to view 9-day forecast →
       </p>
+      <!-- 預設載入中狀態文字，資料載入後會被替換 -->
       <div class="hko-weather-loading">載入天氣預報中...</div>
     </div>
 
     <style>
+      /* 預報小工具主容器樣式 */
       #hko-weather-widget {
         width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow-x: auto; /* 啟用水平捲動 */
+        -webkit-overflow-scrolling: touch; /* 提升 iOS 設備的捲動平滑度 */
         background: #174f8f;
         font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
         position: relative;
         z-index: 9999;
         padding-bottom: 12px;
       }
+      /* 滑動提示文字樣式 */
       #hko-swipe-hint {
         text-align: center;
         color: rgba(255, 255, 255, 0.75);
@@ -227,16 +231,18 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
         padding: 0;
         font-family: Arial, "Microsoft JhengHei", "PingFang HK", sans-serif;
         letter-spacing: 0.5px;
-        position: sticky;
+        position: sticky; /* 讓提示文字在捲動時固定於左側 */
         left: 0;
       }
+      /* 天氣卡片橫向排列容器 */
       .hko-weather-row {
-        display: flex;
-        min-width: 1500px;
+        display: flex; /* 使用 Flexbox 排版 */
+        min-width: 1500px; /* 確保內容寬度足夠觸發水平捲動 */
         background: #174f8f;
       }
+      /* 單日天氣卡片樣式 */
       .hko-weather-card {
-        flex: 0 0 166px;
+        flex: 0 0 166px; /* 固定寬度，不允許縮放 */
         width: 166px;
         background: linear-gradient(180deg, #1e5a9e 0%, #174f8f 100%);
         color: #ffffff;
@@ -246,13 +252,16 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
         box-sizing: border-box;
         overflow: hidden;
       }
+      /* 移除最後一個卡片的右側邊框 */
       .hko-weather-card:last-child { border-right: none; }
+      
+      /* 文字與圖示排版設定 */
       .hko-date {
         font-size: 23px;
         font-weight: 700;
         line-height: 1.15;
         margin-bottom: 3px;
-        white-space: nowrap;
+        white-space: nowrap; /* 防止文字換行 */
       }
       .hko-week {
         font-size: 20px;
@@ -292,15 +301,19 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
         display: inline-block;
         max-width: 88px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis; /* 超出範圍顯示省略號 */
         white-space: nowrap;
       }
+      
+      /* 載入中與錯誤訊息樣式 */
       .hko-weather-loading, .hko-weather-error {
         color: #ffffff;
         font-size: 18px;
         padding: 18px;
         text-align: center;
       }
+      
+      /* 自訂捲軸樣式 (Webkit 瀏覽器適用) */
       #hko-weather-widget::-webkit-scrollbar { height: 16px; }
       #hko-weather-widget::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.10);
@@ -314,6 +327,8 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
       #hko-weather-widget::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.95);
       }
+      
+      /* 響應式設計：針對螢幕寬度 768px 以下的行動裝置縮小尺寸 */
       @media (max-width: 768px) {
         .hko-weather-row { min-width: 1350px; }
         .hko-weather-card { flex: 0 0 150px; width: 150px; padding: 6px 5px 9px; }
@@ -327,35 +342,46 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
         .hko-wind-text { max-width: 75px; }
       }
 
-      /* ===== MUSIC BUTTON HOVER ===== */
+      /* ===== 測試用音樂按鈕互動特效 ===== */
       #musicToggle:hover {
         background: rgba(0, 0, 0, 0.85) !important;
         box-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.4) !important;
-        transform: scale(1.05);
+        transform: scale(1.05); /* 放大 5% */
       }
       #musicToggle:active {
-        transform: scale(0.97);
+        transform: scale(0.97); /* 點擊時縮小 */
       }
     </style>
 
     <script>
+      // 確保 HTML DOM 完全載入後再執行資料擷取
       document.addEventListener("DOMContentLoaded", function () {
         loadHKOForecast();
       });
+
+      // 載入並解析天文台天氣預報資料的主函數
       function loadHKOForecast() {
         var container = document.getElementById("hko-weather-widget");
         if (!container) { console.error("HKO widget container not found."); return; }
+        
+        // 香港天文台開放數據 API 網址 (JSON 格式，繁體中文 fnd = 九天天氣預報)
         var apiUrl = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";
+        
+        // 使用 Fetch API 請求數據
         fetch(apiUrl)
           .then(function (response) {
+            // 檢查 HTTP 回應狀態
             if (!response.ok) throw new Error("HKO API request failed. Status: " + response.status);
             return response.json();
           })
           .then(function (data) {
             var forecasts = data.weatherForecast;
             if (!forecasts || !forecasts.length) throw new Error("No forecast data found.");
+            
+            // 構建 HTML 字串
             var html = '<div class="hko-weather-row">';
             forecasts.forEach(function (item) {
+              // 提取並格式化所需資料
               var dateText = formatHKODate(item.forecastDate);
               var weekText = item.week || "";
               var iconUrl  = getHKOIconUrl(item.ForecastIcon);
@@ -364,6 +390,8 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
               var minRH    = item.forecastMinrh   && item.forecastMinrh.value   ? item.forecastMinrh.value   : "";
               var maxRH    = item.forecastMaxrh   && item.forecastMaxrh.value   ? item.forecastMaxrh.value   : "";
               var windText = simplifyWind(item.forecastWind || "");
+              
+              // 組合單日天氣卡片的 HTML 結構
               html +=
                 '<div class="hko-weather-card">' +
                   '<div class="hko-date">'  + dateText + '</div>' +
@@ -378,11 +406,14 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
                 '</div>';
             });
             html += "</div>";
+            
+            // 將生成的 HTML 替換掉載入中狀態文字
             var loadingDiv = container.querySelector(".hko-weather-loading");
             if (loadingDiv) { loadingDiv.outerHTML = html; }
             else { container.insertAdjacentHTML("beforeend", html); }
           })
           .catch(function (error) {
+            // 處理網路錯誤或資料解析錯誤
             console.error("HKO weather widget error:", error);
             var loadingDiv = container.querySelector(".hko-weather-loading");
             var errHTML = '<div class="hko-weather-error">未能載入香港天文台天氣預報。<br>請檢查瀏覽器 Console 或網站是否阻擋外部 API。</div>';
@@ -390,15 +421,21 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
             else { container.insertAdjacentHTML("beforeend", errHTML); }
           });
       }
+
+      // 將 YYYYMMDD 格式轉換為 "M月D日" 格式
       function formatHKODate(dateString) {
         if (!dateString || dateString.length !== 8) return "";
-        var month = Number(dateString.substring(4, 6));
-        var day   = Number(dateString.substring(6, 8));
+        var month = Number(dateString.substring(4, 6)); // 提取月份並轉為數字去掉前導零
+        var day   = Number(dateString.substring(6, 8)); // 提取日期並轉為數字去掉前導零
         return month + "月" + day + "日";
       }
+
+      // 組合香港天文台天氣圖示的絕對路徑
       function getHKOIconUrl(iconCode) {
         return "https://www.hko.gov.hk/images/HKOWxIconOutline/pic" + iconCode + ".png";
       }
+
+      // 將複雜的風力描述字串簡化為「低」、「中」、「高」等級
       function simplifyWind(windText) {
         if (!windText) return "";
         if (windText.indexOf("微風") !== -1) return "低";
@@ -408,8 +445,10 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
         if (windText.indexOf("烈風") !== -1) return "高";
         if (windText.indexOf("暴風") !== -1) return "高";
         if (windText.indexOf("颶風") !== -1) return "高";
-        return "中";
+        return "中"; // 預設值
       }
+
+      // 轉換特殊字元以防止 XSS (Cross-Site Scripting) 攻擊
       function escapeHTML(text) {
         return String(text)
           .replace(/&/g,  "&amp;")
@@ -422,8 +461,16 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
 
     <hr />
 
+    <!-- Bootstrap 網格系統展示相片 -->
     <div class="container text-center">
       <div class="row justify-content-md-center">
+        <!-- 
+          依不同螢幕尺寸調整每列顯示圖片數量：
+          - 行動裝置 (col-12): 每列 1 張
+          - 平板 (col-md-6): 每列 2 張
+          - 桌面 (col-lg-4): 每列 3 張
+          - 大型螢幕 (col-xl-3): 每列 4 張
+        -->
         <div class="col-12 col-md-6 col-lg-4 col-xl-3">
           <img class="img-fluid" src="./images/photo01.png" alt="photo" />
         </div>
@@ -465,6 +512,7 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
 
     <hr />
 
+    <!-- 載入 Bootstrap JavaScript 套件 (包含 Popper.js) -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
