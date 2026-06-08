@@ -27,13 +27,13 @@
 |------|-------------|---------|
 | Min 1 | Hook: Open with familiar app logos (WhatsApp etc.), ask what they have in common | / |
 | Min 2 | What Is the Cloud?: Explain architecture (laptop -> server -> devices) and show AWS global map. | / |
-| Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | 1. `sudo systemctl start nginx`<br/>2. `sudo systemctl status nginx`<br/>3. `Press 'q' to exit status view` |
-| Min 3 (con't) | Prepare directory for deployment. | 1. `cd /var/www/`<br/>2. `rm -r album1` |
-| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/`<br/>2. `sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
-| Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | 1. `cd /var/www/album1/css`<br/>2. `wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
-| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. Password:`S33D!Eatt0Fun`<br/><strong>Run On Server</strong><br/>3. `cd /var/www/album1`<br/>4. `rm -r index.html`<br/>5. `nano index.html`<br/>6. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music)<br/>7. `Press Control+X, Y, Enter` |
-| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-7-hko-weather-forecast-api-code)<br/>4. `Press Control+X, Y, Enter` |
-| Min 8 | Change 4 (Add live chat): Open index.html, insert Firebase chat code, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-8-live-chat)<br/>4. `Press Control+X, Y, Enter` |
+| Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | 1. `sudo systemctl start nginx && sudo systemctl status nginx`<br/>2. `Press 'q' to exit status view` |
+| Min 3 (con't) | Prepare directory for deployment. | 1. `cd /var/www/ && rm -r album1` |
+| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/ && sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
+| Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | 1. `cd /var/www/album1/css && wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
+| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. Password:`S33D!Eatt0Fun`<br/><strong>Run On Server</strong><br/>3. `cd /var/www/album1 && rm -r index.html && nano index.html`<br/>4. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music) (Can use ctrl+w to search)<br/>5. `Press Control+X, Y, Enter` |
+| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code, save and exit. | 1. `cd /var/www/album1 && nano index.html`<br/>2. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-7-hko-weather-forecast-api-code) (Can use ctrl+w to search)<br/>3. `Press Control+X, Y, Enter` |
+| Min 8 | Change 4 (Add live chat): Open index.html, insert Firebase chat code, save and exit. | 1. `cd /var/www/album1 && nano index.html`<br/>2. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-8-live-chat) (Can use ctrl+w to search)<br/>3. `Press Control+X, Y, Enter` |
 | Min 9 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
 | Min 10 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
 | Min 11 | Closing: QR code still live, final concluding statement. | / |
@@ -73,33 +73,87 @@ Replace the whole code with the following in `/var/www/album1/index.html`
     />
     <link rel="stylesheet" href="./css/style.css" />
     <style>
-      /* QR Code fixed to top-right corner */
-      #qrcode-corner {
+      /* QR Toggle Wrapper */
+      #qr-toggle-wrap {
         position: fixed;
         top: 16px;
         right: 16px;
         z-index: 99999;
-        width: 160px;
-        height: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      /* Toggle Button */
+      #qr-btn {
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.14);
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      #qr-btn:active {
+        transform: scale(0.92);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+      }
+
+      /* QR Code Panel */
+      #qrcode-corner {
+        display: none;
+        margin-top: 10px;
+        width: 150px;
+        height: 150px;
         border-radius: 12px;
         box-shadow: 0 4px 18px rgba(0,0,0,0.28), 0 1.5px 4px rgba(0,0,0,0.14);
         background: #fff;
         padding: 6px;
-        display: block;
         object-fit: contain;
+        /* Animate open/close */
+        animation: qr-fadein 0.18s ease;
+      }
+
+      @keyframes qr-fadein {
+        from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      /* On larger screens, show QR by default */
+      @media (min-width: 768px) {
+        #qrcode-corner {
+          display: block;
+        }
+        #qr-btn {
+          display: none;
+        }
       }
     </style>
   </head>
   <body>
 
-    <!-- QR Code fixed top-right -->
-    <img
-      id="qrcode-corner"
-      src="./images/qrcode.png"
-      alt="QR Code"
-      width="160"
-      height="160"
-    />
+    <!-- QR Code: Toggle on mobile, always visible on desktop -->
+    <div id="qr-toggle-wrap">
+      <!-- Toggle button (mobile only) -->
+      <button id="qr-btn" onclick="toggleQR()" aria-label="顯示 QR Code" title="Show QR Code">
+        🔎
+      </button>
+      <!-- QR Code image -->
+      <img
+        id="qrcode-corner"
+        src="./images/qrcode.png"
+        alt="QR Code"
+        width="150"
+        height="150"
+      />
+    </div>
 
     <h1>Photo Album Demo</h1>
 
@@ -181,6 +235,45 @@ Replace the whole code with the following in `/var/www/album1/index.html`
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
+
+    <!-- ===== QR TOGGLE JS ===== -->
+    <script>
+      let qrOpen = false;
+
+      function toggleQR() {
+        const qr  = document.getElementById('qrcode-corner');
+        const btn = document.getElementById('qr-btn');
+        qrOpen = !qrOpen;
+
+        if (qrOpen) {
+          qr.style.display = 'block';
+          // Re-trigger animation
+          qr.style.animation = 'none';
+          qr.offsetHeight; // reflow
+          qr.style.animation = '';
+          btn.textContent = '✕';
+          btn.setAttribute('aria-label', '關閉 QR Code');
+        } else {
+          qr.style.display = 'none';
+          btn.textContent = '📷';
+          btn.setAttribute('aria-label', '顯示 QR Code');
+        }
+      }
+
+      // Close QR panel if user resizes to desktop (≥768px)
+      window.addEventListener('resize', function () {
+        const qr  = document.getElementById('qrcode-corner');
+        const btn = document.getElementById('qr-btn');
+        if (window.innerWidth >= 768) {
+          qr.style.display = 'block';
+          btn.style.display = 'none';
+          qrOpen = true;
+        } else {
+          btn.style.display = 'flex';
+          if (!qrOpen) qr.style.display = 'none';
+        }
+      });
+    </script>
 
     <!-- ===== MUSIC JS START ===== -->
     <script>
