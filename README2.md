@@ -31,12 +31,12 @@
 | Min 3 (con't) | Prepare directory for deployment. | 1. `cd /var/www/`<br/>2. `rm -r album1` |
 | Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/`<br/>2. `sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | 1. `cd /var/www/album1/css`<br/>2. `wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
-| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. Password:`S33D!Eatt0Fun`<br/> <strong>Run On Server </strong><br/>3. `cd /var/www/album1`<br/>4. `rm -r index.html`<br/>5. `nano index.html`<br/>6. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music)<br/>7. `Press Control+X, Y, Enter` |
-| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code between &lt;body&gt; tags, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-7-hko-weather-forecast-api-code)<br/>4. `Press Control+X, Y, Enter` |
-| Min 8 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
-| Min 9 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
-| Min 10 | Closing: QR code still live, final concluding statement. | / |
-
+| Min 6 | Change 2 (Replace photos, add music): Navigate to album1, replace existing images with new ones, refresh website. | **Action: run the command on !!LOCAL!! (Depending on your OS)**<br/>- For Windows (PowerShell):<br/>1. `scp $env:USERPROFILE\Downloads\SupportDoc\* root@47.81.211.14:/var/www/album1/images/`<br/>- For Mac / Linux:<br/>1. `scp ~/Downloads/SupportDoc/* root@47.81.211.14:/var/www/album1/images/`<br/>2. Password:`S33D!Eatt0Fun`<br/><strong>Run On Server</strong><br/>3. `cd /var/www/album1`<br/>4. `rm -r index.html`<br/>5. `nano index.html`<br/>6. [Replace the whole code from GitHub ↓](#min-6-replace-photos--add-music)<br/>7. `Press Control+X, Y, Enter` |
+| Min 7 | Change 3 (Add weather forecast): Open index.html, insert HKO public API code, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-7-hko-weather-forecast-api-code)<br/>4. `Press Control+X, Y, Enter` |
+| Min 8 | Change 4 (Add live chat): Open index.html, insert Firebase chat code, save and exit. | 1. `cd /var/www/album1`<br/>2. `nano index.html`<br/>3. [Insert the code after `<!-- MUSIC PART END -->` from GitHub ↓](#min-8-live-chat)<br/>4. `Press Control+X, Y, Enter` |
+| Min 9 | What Just Happened: Diagram showing flow from Laptop -> Cloud -> Phone. | / |
+| Min 10 | Why This Matters: Career relevance and student's before-and-after learning transformation. | / |
+| Min 11 | Closing: QR code still live, final concluding statement. | / |
 ---
 
 ## Overview
@@ -56,9 +56,6 @@ This demo showcases fundamental cloud architecture and web development concepts 
 ---
 
 ### Min 6: Replace Photos & Add Music
-
-
-
 Replace the whole code with the following in `/var/www/album1/index.html`
 [↑ Back to Timeline](#demo-timeline--instructions)
 ```html
@@ -473,6 +470,189 @@ Add the following code after `<!-- ===== MUSIC PART END ===== -->`
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
+```
+### Min 8: Live Chat
+Insert behind <!-- ===== MUSIC PART END ===== -->
+[↑ Back to Timeline](#demo-timeline--instructions)
+```html
+<!-- ===== FIREBASE CHAT START ===== -->
+<div id="chatContainer" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+">
+  <!-- Header -->
+  <div style="
+    background: rgba(255,255,255,0.1);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  ">
+    <span style="color:#fff; font-weight:bold; font-size:0.95rem;">💬 Live Chat</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span onclick="clearChat()" style="
+        color: rgba(255,255,255,0.6);
+        font-size: 0.75rem;
+        cursor: pointer;
+      " title="Clear all messages">🗑️</span>
+      <span id="chatToggleIcon" onclick="toggleChat()" style="
+        color:#fff;
+        font-size:0.85rem;
+        cursor:pointer;
+      ">▼</span>
+    </div>
+  </div>
+
+  <!-- Chat Body -->
+  <div id="chatBody">
+    <div id="chatBox" style="
+      height: 220px;
+      overflow-y: auto;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    "></div>
+
+    <!-- Input -->
+    <div style="
+      display: flex;
+      gap: 6px;
+      padding: 8px 10px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    ">
+      <input id="nameInput" placeholder="Name" style="
+        width: 80px;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 0.8rem;
+        outline: none;
+      " />
+      <input id="msgInput" placeholder="Message..." style="
+        flex: 1;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 0.8rem;
+        outline: none;
+      " onkeydown="if(event.key==='Enter') sendMsg()" />
+      <button onclick="sendMsg()" style="
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: none;
+        background: #4d96ff;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.8rem;
+      ">Send</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue, query, limitToLast }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ⚠️ 替換成你自己的 Firebase databaseURL
+  const app = initializeApp({
+    databaseURL: "https://openday-d0529-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  });
+
+  const db = getDatabase(app);
+  const chatRef = ref(db, 'messages');
+  const recentMessages = query(chatRef, limitToLast(200));
+
+  // ✅ 記錄本頁面載入的時間，只顯示載入後的新訊息
+  const sessionStart = Date.now();
+
+  // ✅ 只顯示最近 24 小時 且 本次開啟頁面之後 的訊息
+  const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
+
+  // ✅ 本地清除標記（按 🗑️ 後，清除本地顯示）
+  let localClearedAt = null;
+
+  onValue(recentMessages, (snapshot) => {
+    const box = document.getElementById('chatBox');
+    box.innerHTML = '';
+    snapshot.forEach(child => {
+      const d = child.val();
+
+      // 跳過 24 小時前的訊息
+      if (d.time < twentyFourHoursAgo) return;
+
+      // 跳過本次開頁面之前的訊息（本地 session 過濾）
+      if (d.time < sessionStart) return;
+
+      // 跳過本地清除後的訊息
+      if (localClearedAt && d.time < localClearedAt) return;
+
+      const div = document.createElement('div');
+      div.style.cssText = `
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 5px 10px;
+        color: #fff;
+        font-size: 0.82rem;
+        word-break: break-word;
+      `;
+      div.innerHTML = `<b style="color:#4d96ff">${escapeHTML(d.name || 'Anonymous')}</b>: ${escapeHTML(d.text)}`;
+      box.appendChild(div);
+    });
+    box.scrollTop = box.scrollHeight;
+  });
+
+  window.sendMsg = function() {
+    const name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+    const text = document.getElementById('msgInput').value.trim();
+    if (!text) return;
+    push(chatRef, { name, text, time: Date.now() });
+    document.getElementById('msgInput').value = '';
+  };
+
+  // ✅ 只清除本地顯示，不動 Firebase 資料
+  window.clearChat = function() {
+    localClearedAt = Date.now();
+    document.getElementById('chatBox').innerHTML = '';
+  };
+
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;");
+  }
+</script>
+<script>
+  function toggleChat() {
+    const body = document.getElementById('chatBody');
+    const icon = document.getElementById('chatToggleIcon');
+    if (body.style.display === 'none') {
+      body.style.display = 'block';
+      icon.textContent = '▼';
+    } else {
+      body.style.display = 'none';
+      icon.textContent = '▲';
+    }
+  }
+</script>
+<!-- ===== FIREBASE CHAT END ===== -->
 ```
 
 
