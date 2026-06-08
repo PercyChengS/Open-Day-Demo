@@ -72,8 +72,34 @@ Replace the whole code with the following in `/var/www/album1/index.html`
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      /* QR Code fixed to top-right corner */
+      #qrcode-corner {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 99999;
+        width: 160px;
+        height: 160px;
+        border-radius: 12px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.28), 0 1.5px 4px rgba(0,0,0,0.14);
+        background: #fff;
+        padding: 6px;
+        display: block;
+        object-fit: contain;
+      }
+    </style>
   </head>
   <body>
+
+    <!-- QR Code fixed top-right -->
+    <img
+      id="qrcode-corner"
+      src="./images/qrcode.png"
+      alt="QR Code"
+      width="160"
+      height="160"
+    />
 
     <h1>Photo Album Demo</h1>
 
