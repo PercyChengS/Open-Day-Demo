@@ -143,7 +143,7 @@ Replace the whole code with the following in `/var/www/album1/index.html`
     <div id="qr-toggle-wrap">
       <!-- Toggle button (mobile only) -->
       <button id="qr-btn" onclick="toggleQR()" aria-label="顯示 QR Code" title="Show QR Code">
-        📷
+        🔎
       </button>
       <!-- QR Code image -->
       <img
