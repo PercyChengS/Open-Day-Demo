@@ -572,7 +572,7 @@ Insert behind <!-- ===== MUSIC PART END ===== -->
 
   // ⚠️ 替換成你自己的 Firebase databaseURL
   const app = initializeApp({
-    databaseURL: "https://openday-d0529-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    databaseURL: "https://openday-ed369-default-rtdb.asia-southeast1.firebasedatabase.app/"
   });
 
   const db = getDatabase(app);
