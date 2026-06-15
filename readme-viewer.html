@@ -6,12 +6,48 @@
   <title>Open Day Demo – README</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; }
+    :root {
+      --bg: #f0f2f5;
+      --panel: #ffffff;
+      --text: #222222;
+      --muted: #333333;
+      --bar: #1e3a5f;
+      --bar-text: #ffffff;
+      --border: #e0e0e0;
+      --link: #1565c0;
+      --code-bg: #f0f0f0;
+      --code-text: #c7254e;
+      --pre-bg: #1e1e1e;
+      --pre-text: #d4d4d4;
+      --table-alt: #f7f9fc;
+      --status: #a5d6a7;
+      --btn-secondary: #888888;
+      --shadow: rgba(0,0,0,0.09);
+    }
+body.dark {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --text: #e8eaf0;
+  --muted: #d6dae3;
+  --bar: #7db7ff;
+  --bar-text: #f2f5fb;
+  --border: #2b3240;
+  --link: #7db7ff;
+  --code-bg: #242b36;
+  --code-text: #ffd17a;
+  --pre-bg: #0b0f14;
+  --pre-text: #d7dde8;
+  --table-alt: #11161f;
+  --status: #9fd8a8;
+  --btn-secondary: #5f6978;
+  --shadow: rgba(0,0,0,0.35);
+}
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); transition: background .2s ease, color .2s ease; }
 
     /* ── Replace Bar ── */
     #replace-bar {
       position: sticky; top: 0; z-index: 200;
-      background: #1e3a5f; color: #fff;
+      background: var(--bar); color: var(--bar-text);
       padding: 10px 20px;
       display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -20,7 +56,7 @@
     #replace-bar label { font-weight: bold; font-size: 13px; white-space: nowrap; }
     #replace-bar input {
       padding: 5px 10px; border-radius: 6px; border: none;
-      font-size: 13px; width: 190px; background: #fff; color: #222;
+      font-size: 13px; width: 190px; background: var(--panel); color: var(--text); border: 1px solid var(--border);
     }
     #replace-bar button {
       padding: 6px 16px; border-radius: 6px; border: none;
@@ -28,34 +64,34 @@
     }
     #btn-apply  { background: #4caf50; color: #fff; }
     #btn-apply:hover  { background: #388e3c; }
-    #btn-reset  { background: #888; color: #fff; }
+    #btn-reset  { background: var(--btn-secondary); color: #fff; }
     #btn-reset:hover  { background: #555; }
-    #status { font-size: 12px; color: #a5d6a7; margin-left: 4px; }
+    #status { font-size: 12px; color: var(--status); margin-left: 4px; }
 
     /* ── Page layout ── */
     #content {
       max-width: 960px; margin: 28px auto 60px;
-      background: #fff; padding: 36px 44px;
-      border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+      background: var(--panel); padding: 36px 44px;
+      border-radius: 10px; box-shadow: 0 2px 12px var(--shadow);
       line-height: 1.8;
     }
 
     /* ── Typography ── */
-    h1 { font-size: 1.9em; border-bottom: 3px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 22px; color: #1e3a5f; }
-    h2 { font-size: 1.35em; margin-top: 32px; margin-bottom: 10px; color: #1e3a5f; border-left: 4px solid #4caf50; padding-left: 10px; }
-    h3 { font-size: 1.05em; margin-top: 18px; margin-bottom: 8px; color: #333; }
+    h1 { font-size: 1.9em; border-bottom: 3px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 22px; color: var(--bar); }
+    h2 { font-size: 1.35em; margin-top: 32px; margin-bottom: 10px; color: var(--bar); border-left: 4px solid #4caf50; padding-left: 10px; }
+    h3 { font-size: 1.05em; margin-top: 18px; margin-bottom: 8px; color: var(--muted); }
     p  { margin-bottom: 10px; }
     ul, ol { margin: 8px 0 10px 24px; }
     li { margin-bottom: 4px; }
-    a  { color: #1565c0; }
+    a  { color: var(--link); }
 
     /* ── Code / Pre ── */
     code {
-      background: #f0f0f0; padding: 2px 6px; border-radius: 4px;
-      font-family: 'Courier New', monospace; font-size: 0.88em; color: #c7254e;
+      background: var(--code-bg); padding: 2px 6px; border-radius: 4px;
+      font-family: 'Courier New', monospace; font-size: 0.88em; color: var(--code-text);
     }
     pre {
-      background: #1e1e1e; color: #d4d4d4;
+      background: var(--pre-bg); color: var(--pre-text);
       padding: 14px 18px; border-radius: 7px;
       overflow-x: auto; margin: 10px 0;
       font-size: 0.85em; line-height: 1.65;
@@ -64,17 +100,31 @@
 
     /* ── Table ── */
     table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 0.9em; }
-    th { background: #1e3a5f; color: #fff; padding: 9px 12px; text-align: left; }
-    td { padding: 8px 12px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
-    tr:nth-child(even) td { background: #f7f9fc; }
+    th { background: var(--bar); color: var(--bar-text); padding: 9px 12px; text-align: left; }
+    td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: var(--table-alt); }
 
     /* ── IP / PW highlight ── */
     .vm-ip { color: #e65100; font-weight: bold; }
     .vm-pw { color: #6a1b9a; font-weight: bold; }
     .replaced .vm-ip { color: #2e7d32; }
-    .replaced .vm-pw { color: #1565c0; }
+    .replaced .vm-pw { color: var(--link); }
 
-    hr { border: none; border-top: 2px solid #e0e0e0; margin: 28px 0; }
+    hr { border: none; border-top: 2px solid var(--border); margin: 28px 0; }
+
+    #btn-theme { background: #26384f; color: #fff; }
+    #btn-theme:hover { background: #1a2737; }
+    body.dark #btn-theme { background: #3e5675; }
+    .pre-wrap { position: relative; margin: 10px 0; }
+    .copy-btn {
+      position: absolute; top: 10px; right: 10px; z-index: 5;
+      padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px;
+      background: rgba(255,255,255,0.9); color: #111; cursor: pointer; font-size: 12px; font-weight: 600;
+    }
+    body.dark .copy-btn { background: rgba(23,26,33,0.92); color: #f2f5fb; border-color: #465064; }
+    .copy-btn:hover { transform: translateY(-1px); }
+    .copy-btn.copied { background: #2e7d32; color: #fff; border-color: #2e7d32; }
+
   </style>
 </head>
 <body>
@@ -91,6 +141,7 @@
   </div>
   <button id="btn-apply" onclick="applyReplace()">Apply to All</button>
   <button id="btn-reset" onclick="resetContent()">Reset</button>
+  <button id="btn-theme" onclick="toggleTheme()">Dark Mode</button>
   <span id="status"></span>
 </div>
 
@@ -126,7 +177,7 @@
 
   <hr />
 
-  <h2>Demo Timeline &amp; Instructions</h2>
+  <h2 id="demo-timeline--instructions">Demo Timeline &amp; Instructions</h2>
   <table>
     <thead>
       <tr><th>Time</th><th>Instruction</th><th>Command</th></tr>
@@ -424,6 +475,74 @@
       if (e.key === 'Enter') applyReplace();
     });
   });
+
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+    const dark = document.body.classList.contains('dark');
+    localStorage.setItem('readmeTheme', dark ? 'dark' : 'light');
+    document.getElementById('btn-theme').textContent = dark ? 'Light Mode' : 'Dark Mode';
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem('readmeTheme');
+    if (saved === 'dark') {
+      document.body.classList.add('dark');
+      const btn = document.getElementById('btn-theme');
+      if (btn) btn.textContent = 'Light Mode';
+    }
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
+
+  function addCopyButtons() {
+    document.querySelectorAll('pre').forEach((pre, index) => {
+      if (pre.parentElement && pre.parentElement.classList.contains('pre-wrap')) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'pre-wrap';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = 'Copy code';
+      btn.setAttribute('data-copy-index', index + 1);
+      btn.addEventListener('click', async () => {
+        const codeEl = pre.querySelector('code');
+        const text = codeEl ? codeEl.innerText : pre.innerText;
+        try {
+          await copyText(text);
+          const old = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = old;
+            btn.classList.remove('copied');
+          }, 1200);
+        } catch (e) {
+          btn.textContent = 'Copy failed';
+          setTimeout(() => btn.textContent = 'Copy code', 1200);
+        }
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  initTheme();
+  addCopyButtons();
 </script>
 </body>
 </html>
