@@ -24,24 +24,24 @@
       --btn-secondary: #888888;
       --shadow: rgba(0,0,0,0.09);
     }
-body.dark {
-  --bg: #0f1115;
-  --panel: #171a21;
-  --text: #e8eaf0;
-  --muted: #d6dae3;
-  --bar: #7db7ff;
-  --bar-text: #f2f5fb;
-  --border: #2b3240;
-  --link: #7db7ff;
-  --code-bg: #242b36;
-  --code-text: #ffd17a;
-  --pre-bg: #0b0f14;
-  --pre-text: #d7dde8;
-  --table-alt: #11161f;
-  --status: #9fd8a8;
-  --btn-secondary: #5f6978;
-  --shadow: rgba(0,0,0,0.35);
-}
+    body.dark {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --text: #e8eaf0;
+      --muted: #d6dae3;
+      --bar: #7db7ff;
+      --bar-text: #f2f5fb;
+      --border: #2b3240;
+      --link: #7db7ff;
+      --code-bg: #242b36;
+      --code-text: #ffd17a;
+      --pre-bg: #0b0f14;
+      --pre-text: #d7dde8;
+      --table-alt: #11161f;
+      --status: #9fd8a8;
+      --btn-secondary: #5f6978;
+      --shadow: rgba(0,0,0,0.35);
+    }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); transition: background .2s ease, color .2s ease; }
 
     /* ── Replace Bar ── */
@@ -124,7 +124,6 @@ body.dark {
     body.dark .copy-btn { background: rgba(23,26,33,0.92); color: #f2f5fb; border-color: #465064; }
     .copy-btn:hover { transform: translateY(-1px); }
     .copy-btn.copied { background: #2e7d32; color: #fff; border-color: #2e7d32; }
-
   </style>
 </head>
 <body>
@@ -163,7 +162,7 @@ body.dark {
       </ul>
     </li>
     <li>Restore the demo:
-      <pre><code>cd /var/www && rm -r album1 && sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo && sudo systemctl stop nginx</code></pre>
+      <pre><code>cd /var/www &amp;&amp; rm -r album1 &amp;&amp; sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo &amp;&amp; sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 &amp;&amp; sudo rm -rf /tmp/open-day-demo &amp;&amp; sudo systemctl stop nginx</code></pre>
     </li>
     <li>Ensure the local computer <code>$env:USERPROFILE/Downloads/SupportDoc</code> has the demo photos installed from the GitHub repository. Download from <a href="https://github.com/PercyChengS/Open-Day-Demo/tree/main">https://github.com/PercyChengS/Open-Day-Demo/tree/main</a></li>
   </ol>
@@ -237,7 +236,7 @@ body.dark {
         <td>Change 3 (Add weather forecast): Open index.html, insert HKO public API code, save and exit.</td>
         <td>
           1. <code>cd /var/www/album1 &amp;&amp; nano index.html</code><br/>
-          2. <a href="#min-7-hko-weather-forecast-api-code">Insert the code after <code>&lt;!-- MUSIC PART END --&gt;</code> from GitHub ↓</a> (Can use ctrl+w to search)<br/>
+          2. <a href="#min-7-hko-weather-forecast-api-code">Insert the code after <code>&lt;!-- ===== MUSIC PART END ===== --&gt;</code> from GitHub ↓</a> (Can use ctrl+w to search)<br/>
           3. <code>Press Control+X, Y, Enter</code>
         </td>
       </tr>
@@ -246,7 +245,7 @@ body.dark {
         <td>Change 4 (Add live chat): Open index.html, insert Firebase chat code, save and exit.</td>
         <td>
           1. <code>cd /var/www/album1 &amp;&amp; nano index.html</code><br/>
-          2. <a href="#min-8-live-chat">Insert the code after <code>&lt;!-- MUSIC PART END --&gt;</code> from GitHub ↓</a> (Can use ctrl+w to search)<br/>
+          2. <a href="#min-8-live-chat">Insert the code after <code>&lt;!-- ===== MUSIC PART END ===== --&gt;</code> from GitHub ↓</a> (Can use ctrl+w to search)<br/>
           3. <code>Press Control+X, Y, Enter</code>
         </td>
       </tr>
@@ -359,83 +358,413 @@ body.dark {
   <h3 id="min-7-hko-weather-forecast-api-code">Min 7: HKO Weather Forecast API Code</h3>
   <p>Add the following code after <code>&lt;!-- ===== MUSIC PART END ===== --&gt;</code><br/>
   <a href="#demo-timeline--instructions">↑ Back to Timeline</a></p>
-  <pre><code>&lt;!-- HKO 9-Day Weather Forecast Widget --&gt;
-&lt;div id="hko-weather-widget"&gt;
-  &lt;p id="hko-swipe-hint"&gt;← 左右拖動以查看 9 天預報 &amp;nbsp;/&amp;nbsp; Swipe left-right to view 9-day forecast →&lt;/p&gt;
-  &lt;div class="hko-weather-loading"&gt;載入天氣預報中...&lt;/div&gt;
-&lt;/div&gt;
-&lt;style&gt;
-  #hko-weather-widget { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; background:#174f8f; font-family:Arial,"Microsoft JhengHei","PingFang HK",sans-serif; position:relative; z-index:9999; padding-bottom:12px; }
-  /* ... (full styles as provided) ... */
-&lt;/style&gt;
-&lt;script&gt;
-  document.addEventListener("DOMContentLoaded",function(){loadHKOForecast();});
-  function loadHKOForecast(){
-    var container=document.getElementById("hko-weather-widget");
-    if(!container)return;
-    fetch("https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&amp;lang=tc")
-      .then(function(r){if(!r.ok)throw new Error("API failed");return r.json();})
-      .then(function(data){/* render cards */})
-      .catch(function(e){console.error(e);});
-  }
-&lt;/script&gt;</code></pre>
+  <pre><code>    &lt;!-- HKO 9-Day Weather Forecast Widget --&gt;
+    &lt;div id=&quot;hko-weather-widget&quot;&gt;
+      &lt;p id=&quot;hko-swipe-hint&quot;&gt;
+        ← 左右拖動以查看 9 天預報 &amp;nbsp;/&amp;nbsp; Swipe left-right to view 9-day forecast →
+      &lt;/p&gt;
+      &lt;div class=&quot;hko-weather-loading&quot;&gt;載入天氣預報中...&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;style&gt;
+      #hko-weather-widget {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        background: #174f8f;
+        font-family: Arial, &quot;Microsoft JhengHei&quot;, &quot;PingFang HK&quot;, sans-serif;
+        position: relative;
+        z-index: 9999;
+        padding-bottom: 12px;
+      }
+      #hko-swipe-hint {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 14px;
+        margin: 6px 0 4px 0;
+        padding: 0;
+        font-family: Arial, &quot;Microsoft JhengHei&quot;, &quot;PingFang HK&quot;, sans-serif;
+        letter-spacing: 0.5px;
+        position: sticky;
+        left: 0;
+      }
+      .hko-weather-row {
+        display: flex;
+        min-width: 1500px;
+        background: #174f8f;
+      }
+      .hko-weather-card {
+        flex: 0 0 166px;
+        width: 166px;
+        background: linear-gradient(180deg, #1e5a9e 0%, #174f8f 100%);
+        color: #ffffff;
+        text-align: center;
+        padding: 7px 6px 10px;
+        border-right: 5px solid rgba(255, 255, 255, 0.22);
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .hko-weather-card:last-child { border-right: none; }
+      .hko-date {
+        font-size: 23px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 3px;
+        white-space: nowrap;
+      }
+      .hko-week {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 10px;
+        white-space: nowrap;
+      }
+      .hko-icon {
+        width: 84px;
+        height: 84px;
+        object-fit: contain;
+        margin-bottom: 8px;
+      }
+      .hko-temp, .hko-humidity {
+        font-size: 21px;
+        font-weight: 800;
+        line-height: 1.15;
+        white-space: nowrap;
+        letter-spacing: -0.5px;
+      }
+      .hko-temp { margin-bottom: 3px; }
+      .hko-humidity { margin-bottom: 10px; }
+      .hko-wind {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .hko-umbrella { font-size: 25px; line-height: 1; flex-shrink: 0; }
+      .hko-wind-text {
+        display: inline-block;
+        max-width: 88px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .hko-weather-loading, .hko-weather-error {
+        color: #ffffff;
+        font-size: 18px;
+        padding: 18px;
+        text-align: center;
+      }
+      #hko-weather-widget::-webkit-scrollbar { height: 16px; }
+      #hko-weather-widget::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.10);
+        border-radius: 10px;
+      }
+      #hko-weather-widget::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.70);
+        border-radius: 10px;
+        border: 3px solid #174f8f;
+      }
+      #hko-weather-widget::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.95);
+      }
+      @media (max-width: 768px) {
+        .hko-weather-row { min-width: 1350px; }
+        .hko-weather-card { flex: 0 0 150px; width: 150px; padding: 6px 5px 9px; }
+        .hko-date { font-size: 20px; }
+        .hko-week { font-size: 17px; margin-bottom: 8px; }
+        .hko-icon { width: 76px; height: 76px; margin-bottom: 7px; }
+        .hko-temp, .hko-humidity { font-size: 18px; letter-spacing: -0.8px; }
+        .hko-humidity { margin-bottom: 8px; }
+        .hko-wind { font-size: 17px; }
+        .hko-umbrella { font-size: 22px; }
+        .hko-wind-text { max-width: 75px; }
+      }
+
+      /* ===== MUSIC BUTTON HOVER ===== */
+      #musicToggle:hover {
+        background: rgba(0, 0, 0, 0.85) !important;
+        box-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.4) !important;
+        transform: scale(1.05);
+      }
+      #musicToggle:active {
+        transform: scale(0.97);
+      }
+    &lt;/style&gt;
+
+    &lt;script&gt;
+      document.addEventListener(&quot;DOMContentLoaded&quot;, function () {
+        loadHKOForecast();
+      });
+      function loadHKOForecast() {
+        var container = document.getElementById(&quot;hko-weather-widget&quot;);
+        if (!container) { console.error(&quot;HKO widget container not found.&quot;); return; }
+        var apiUrl = &quot;https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&amp;lang=tc&quot;;
+        fetch(apiUrl)
+          .then(function (response) {
+            if (!response.ok) throw new Error(&quot;HKO API request failed. Status: &quot; + response.status);
+            return response.json();
+          })
+          .then(function (data) {
+            var forecasts = data.weatherForecast;
+            if (!forecasts || !forecasts.length) throw new Error(&quot;No forecast data found.&quot;);
+            var html = '&lt;div class=&quot;hko-weather-row&quot;&gt;';
+            forecasts.forEach(function (item) {
+              var dateText = formatHKODate(item.forecastDate);
+              var weekText = item.week || &quot;&quot;;
+              var iconUrl  = getHKOIconUrl(item.ForecastIcon);
+              var minTemp  = item.forecastMintemp &amp;&amp; item.forecastMintemp.value ? item.forecastMintemp.value : &quot;&quot;;
+              var maxTemp  = item.forecastMaxtemp &amp;&amp; item.forecastMaxtemp.value ? item.forecastMaxtemp.value : &quot;&quot;;
+              var minRH    = item.forecastMinrh   &amp;&amp; item.forecastMinrh.value   ? item.forecastMinrh.value   : &quot;&quot;;
+              var maxRH    = item.forecastMaxrh   &amp;&amp; item.forecastMaxrh.value   ? item.forecastMaxrh.value   : &quot;&quot;;
+              var windText = simplifyWind(item.forecastWind || &quot;&quot;);
+              html +=
+                '&lt;div class=&quot;hko-weather-card&quot;&gt;' +
+                  '&lt;div class=&quot;hko-date&quot;&gt;'  + dateText + '&lt;/div&gt;' +
+                  '&lt;div class=&quot;hko-week&quot;&gt;(' + weekText + ')&lt;/div&gt;' +
+                  '&lt;img class=&quot;hko-icon&quot; src=&quot;' + iconUrl + '&quot; alt=&quot;' + escapeHTML(item.forecastWeather || &quot;weather icon&quot;) + '&quot;&gt;' +
+                  '&lt;div class=&quot;hko-temp&quot;&gt;'     + minTemp + ' | ' + maxTemp + '°C&lt;/div&gt;' +
+                  '&lt;div class=&quot;hko-humidity&quot;&gt;' + minRH   + ' - ' + maxRH   + '%&lt;/div&gt;'  +
+                  '&lt;div class=&quot;hko-wind&quot;&gt;' +
+                    '&lt;span class=&quot;hko-umbrella&quot;&gt;☂️&lt;/span&gt;' +
+                    '&lt;span class=&quot;hko-wind-text&quot;&gt;' + escapeHTML(windText) + '&lt;/span&gt;' +
+                  '&lt;/div&gt;' +
+                '&lt;/div&gt;';
+            });
+            html += &quot;&lt;/div&gt;&quot;;
+            var loadingDiv = container.querySelector(&quot;.hko-weather-loading&quot;);
+            if (loadingDiv) { loadingDiv.outerHTML = html; }
+            else { container.insertAdjacentHTML(&quot;beforeend&quot;, html); }
+          })
+          .catch(function (error) {
+            console.error(&quot;HKO weather widget error:&quot;, error);
+            var loadingDiv = container.querySelector(&quot;.hko-weather-loading&quot;);
+            var errHTML = '&lt;div class=&quot;hko-weather-error&quot;&gt;未能載入香港天文台天氣預報。&lt;br&gt;請檢查瀏覽器 Console 或網站是否阻擋外部 API。&lt;/div&gt;';
+            if (loadingDiv) { loadingDiv.outerHTML = errHTML; }
+            else { container.insertAdjacentHTML(&quot;beforeend&quot;, errHTML); }
+          });
+      }
+      function formatHKODate(dateString) {
+        if (!dateString || dateString.length !== 8) return &quot;&quot;;
+        var month = Number(dateString.substring(4, 6));
+        var day   = Number(dateString.substring(6, 8));
+        return month + &quot;月&quot; + day + &quot;日&quot;;
+      }
+      function getHKOIconUrl(iconCode) {
+        return &quot;https://www.hko.gov.hk/images/HKOWxIconOutline/pic&quot; + iconCode + &quot;.png&quot;;
+      }
+      function simplifyWind(windText) {
+        if (!windText) return &quot;&quot;;
+        if (windText.indexOf(&quot;微風&quot;) !== -1) return &quot;低&quot;;
+        if (windText.indexOf(&quot;和緩&quot;) !== -1) return &quot;低&quot;;
+        if (windText.indexOf(&quot;清勁&quot;) !== -1) return &quot;中&quot;;
+        if (windText.indexOf(&quot;強風&quot;) !== -1) return &quot;中高&quot;;
+        if (windText.indexOf(&quot;烈風&quot;) !== -1) return &quot;高&quot;;
+        if (windText.indexOf(&quot;暴風&quot;) !== -1) return &quot;高&quot;;
+        if (windText.indexOf(&quot;颶風&quot;) !== -1) return &quot;高&quot;;
+        return &quot;中&quot;;
+      }
+      function escapeHTML(text) {
+        return String(text)
+          .replace(/&amp;/g,  &quot;&amp;amp;&quot;)
+          .replace(/&lt;/g,  &quot;&amp;lt;&quot;)
+          .replace(/&gt;/g,  &quot;&amp;gt;&quot;)
+          .replace(/&quot;/g,  &quot;&amp;quot;&quot;)
+          .replace(/'/g,  &quot;&amp;#039;&quot;);
+      }
+    &lt;/script&gt;</code></pre>
 
   <hr />
 
   <h3 id="min-8-live-chat">Min 8: Live Chat</h3>
-  <p>Insert behind <code>&lt;!-- ===== MUSIC PART END ===== --&gt;</code><br/>
+  <p>Insert the following code after <code>&lt;!-- ===== MUSIC PART END ===== --&gt;</code><br/>
   <a href="#demo-timeline--instructions">↑ Back to Timeline</a></p>
   <pre><code>&lt;!-- ===== FIREBASE CHAT START ===== --&gt;
-&lt;div id="chatContainer" style="position:fixed;bottom:20px;right:20px;width:320px;background:rgba(0,0,0,0.75);border:1px solid rgba(255,255,255,0.3);border-radius:16px;backdrop-filter:blur(8px);z-index:99999;font-family:Arial,sans-serif;overflow:hidden;"&gt;
-  &lt;div style="background:rgba(255,255,255,0.1);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;"&gt;
-    &lt;span style="color:#fff;font-weight:bold;"&gt;💬 Live Chat&lt;/span&gt;
-    &lt;div style="display:flex;align-items:center;gap:8px;"&gt;
-      &lt;span onclick="clearChat()" style="color:rgba(255,255,255,0.6);cursor:pointer;" title="Clear all messages"&gt;🗑️&lt;/span&gt;
-      &lt;span id="chatToggleIcon" onclick="toggleChat()" style="color:#fff;cursor:pointer;"&gt;▼&lt;/span&gt;
+&lt;div id=&quot;chatContainer&quot; style=&quot;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+&quot;&gt;
+  &lt;!-- Header --&gt;
+  &lt;div style=&quot;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  &quot;&gt;
+    &lt;span style=&quot;color:#fff; font-weight:bold; font-size:0.95rem;&quot;&gt;💬 Live Chat&lt;/span&gt;
+    &lt;div style=&quot;display:flex; align-items:center; gap:8px;&quot;&gt;
+      &lt;span onclick=&quot;clearChat()&quot; style=&quot;
+        color: rgba(255,255,255,0.6);
+        font-size: 0.75rem;
+        cursor: pointer;
+      &quot; title=&quot;Clear all messages&quot;&gt;🗑️&lt;/span&gt;
+      &lt;span id=&quot;chatToggleIcon&quot; onclick=&quot;toggleChat()&quot; style=&quot;
+        color:#fff;
+        font-size:0.85rem;
+        cursor:pointer;
+      &quot;&gt;▼&lt;/span&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-  &lt;div id="chatBody"&gt;
-    &lt;div id="chatBox" style="height:220px;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:6px;"&gt;&lt;/div&gt;
-    &lt;div style="display:flex;gap:6px;padding:8px 10px;border-top:1px solid rgba(255,255,255,0.15);"&gt;
-      &lt;input id="nameInput" placeholder="Name" style="width:80px;padding:6px 8px;border-radius:8px;border:none;background:rgba(255,255,255,0.15);color:#fff;font-size:0.8rem;" /&gt;
-      &lt;input id="msgInput" placeholder="Message..." style="flex:1;padding:6px 8px;border-radius:8px;border:none;background:rgba(255,255,255,0.15);color:#fff;font-size:0.8rem;" onkeydown="if(event.key==='Enter')sendMsg()" /&gt;
-      &lt;button onclick="sendMsg()" style="padding:6px 12px;border-radius:8px;border:none;background:#4d96ff;color:#fff;font-weight:bold;cursor:pointer;"&gt;Send&lt;/button&gt;
+
+  &lt;!-- Chat Body --&gt;
+  &lt;div id=&quot;chatBody&quot;&gt;
+    &lt;div id=&quot;chatBox&quot; style=&quot;
+      height: 220px;
+      overflow-y: auto;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    &quot;&gt;&lt;/div&gt;
+
+    &lt;!-- Input --&gt;
+    &lt;div style=&quot;
+      display: flex;
+      gap: 6px;
+      padding: 8px 10px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    &quot;&gt;
+      &lt;input id=&quot;nameInput&quot; placeholder=&quot;Name&quot; style=&quot;
+        width: 80px;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 0.8rem;
+        outline: none;
+      &quot; /&gt;
+      &lt;input id=&quot;msgInput&quot; placeholder=&quot;Message...&quot; style=&quot;
+        flex: 1;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 0.8rem;
+        outline: none;
+      &quot; onkeydown=&quot;if(event.key==='Enter') sendMsg()&quot; /&gt;
+      &lt;button onclick=&quot;sendMsg()&quot; style=&quot;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: none;
+        background: #4d96ff;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.8rem;
+      &quot;&gt;Send&lt;/button&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
-&lt;script type="module"&gt;
-  import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import{getDatabase,ref,push,onValue,query,limitToLast}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-  const app=initializeApp({databaseURL:"https://openday-ed369-default-rtdb.asia-southeast1.firebasedatabase.app/"});
-  const db=getDatabase(app),chatRef=ref(db,'messages'),recentMessages=query(chatRef,limitToLast(200));
-  const sessionStart=Date.now(),twentyFourHoursAgo=Date.now()-24*60*60*1000;
-  let localClearedAt=null;
-  onValue(recentMessages,(snapshot)=&gt;{
-    const box=document.getElementById('chatBox');box.innerHTML='';
-    snapshot.forEach(child=&gt;{
-      const d=child.val();
-      if(d.time&lt;twentyFourHoursAgo||d.time&lt;sessionStart)return;
-      if(localClearedAt&amp;&amp;d.time&lt;localClearedAt)return;
-      const div=document.createElement('div');
-      div.style.cssText="background:rgba(255,255,255,0.1);border-radius:8px;padding:5px 10px;color:#fff;font-size:0.82rem;word-break:break-word;";
-      div.innerHTML=`&lt;b style="color:#4d96ff"&gt;${escapeHTML(d.name||'Anonymous')}&lt;/b&gt;: ${escapeHTML(d.text)}`;
+
+&lt;script type=&quot;module&quot;&gt;
+  import { initializeApp } from &quot;https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js&quot;;
+  import { getDatabase, ref, push, onValue, query, limitToLast }
+    from &quot;https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js&quot;;
+
+  // ⚠️ 替換成你自己的 Firebase databaseURL
+  const app = initializeApp({
+    databaseURL: &quot;https://openday-ed369-default-rtdb.asia-southeast1.firebasedatabase.app/&quot;
+  });
+
+  const db = getDatabase(app);
+  const chatRef = ref(db, 'messages');
+  const recentMessages = query(chatRef, limitToLast(200));
+
+  // ✅ 記錄本頁面載入的時間，只顯示載入後的新訊息
+  const sessionStart = Date.now();
+
+  // ✅ 只顯示最近 24 小時 且 本次開啟頁面之後 的訊息
+  const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
+
+  // ✅ 本地清除標記（按 🗑️ 後，清除本地顯示）
+  let localClearedAt = null;
+
+  onValue(recentMessages, (snapshot) =&gt; {
+    const box = document.getElementById('chatBox');
+    box.innerHTML = '';
+    snapshot.forEach(child =&gt; {
+      const d = child.val();
+
+      // 跳過 24 小時前的訊息
+      if (d.time &lt; twentyFourHoursAgo) return;
+
+      // 跳過本次開頁面之前的訊息（本地 session 過濾）
+      if (d.time &lt; sessionStart) return;
+
+      // 跳過本地清除後的訊息
+      if (localClearedAt &amp;&amp; d.time &lt; localClearedAt) return;
+
+      const div = document.createElement('div');
+      div.style.cssText = `
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 5px 10px;
+        color: #fff;
+        font-size: 0.82rem;
+        word-break: break-word;
+      `;
+      div.innerHTML = `&lt;b style=&quot;color:#4d96ff&quot;&gt;${escapeHTML(d.name || 'Anonymous')}&lt;/b&gt;: ${escapeHTML(d.text)}`;
       box.appendChild(div);
     });
-    box.scrollTop=box.scrollHeight;
+    box.scrollTop = box.scrollHeight;
   });
-  window.sendMsg=function(){const name=document.getElementById('nameInput').value.trim()||'Anonymous',text=document.getElementById('msgInput').value.trim();if(!text)return;push(chatRef,{name,text,time:Date.now()});document.getElementById('msgInput').value='';};
-  window.clearChat=function(){localClearedAt=Date.now();document.getElementById('chatBox').innerHTML='';};
-  function escapeHTML(str){return String(str).replace(/&amp;/g,"&amp;amp;").replace(/&lt;/g,"&amp;lt;").replace(/&gt;/g,"&amp;gt;");}
+
+  window.sendMsg = function() {
+    const name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+    const text = document.getElementById('msgInput').value.trim();
+    if (!text) return;
+    push(chatRef, { name, text, time: Date.now() });
+    document.getElementById('msgInput').value = '';
+  };
+
+  // ✅ 只清除本地顯示，不動 Firebase 資料
+  window.clearChat = function() {
+    localClearedAt = Date.now();
+    document.getElementById('chatBox').innerHTML = '';
+  };
+
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&amp;/g,&quot;&amp;amp;&quot;)
+      .replace(/&lt;/g,&quot;&amp;lt;&quot;)
+      .replace(/&gt;/g,&quot;&amp;gt;&quot;);
+  }
 &lt;/script&gt;
 &lt;script&gt;
-  function toggleChat(){const body=document.getElementById('chatBody'),icon=document.getElementById('chatToggleIcon');if(body.style.display==='none'){body.style.display='block';icon.textContent='▼';}else{body.style.display='none';icon.textContent='▲';}}
+  function toggleChat() {
+    const body = document.getElementById('chatBody');
+    const icon = document.getElementById('chatToggleIcon');
+    if (body.style.display === 'none') {
+      body.style.display = 'block';
+      icon.textContent = '▼';
+    } else {
+      body.style.display = 'none';
+      icon.textContent = '▲';
+    }
+  }
 &lt;/script&gt;
 &lt;!-- ===== FIREBASE CHAT END ===== --&gt;</code></pre>
 
 </div><!-- end #content -->
 
 <script>
-  // Store originals on load
   const origIPs = [], origPWs = [];
   document.querySelectorAll('.vm-ip').forEach((el, i) => origIPs[i] = el.textContent);
   document.querySelectorAll('.vm-pw').forEach((el, i) => origPWs[i] = el.textContent);
@@ -444,16 +773,9 @@ body.dark {
     const newIP = document.getElementById('ip-input').value.trim();
     const newPW = document.getElementById('pw-input').value.trim();
     let ipCount = 0, pwCount = 0;
-
-    if (newIP) {
-      document.querySelectorAll('.vm-ip').forEach(el => { el.textContent = newIP; ipCount++; });
-    }
-    if (newPW) {
-      document.querySelectorAll('.vm-pw').forEach(el => { el.textContent = newPW; pwCount++; });
-    }
-
+    if (newIP) { document.querySelectorAll('.vm-ip').forEach(el => { el.textContent = newIP; ipCount++; }); }
+    if (newPW) { document.querySelectorAll('.vm-pw').forEach(el => { el.textContent = newPW; pwCount++; }); }
     document.getElementById('content').classList.add('replaced');
-
     let msg = '';
     if (ipCount) msg += `✔ ${ipCount} IP updated`;
     if (pwCount) msg += (msg ? ' · ' : '') + `${pwCount} PW updated`;
@@ -469,7 +791,6 @@ body.dark {
     document.getElementById('status').textContent = 'Reset to original.';
   }
 
-  // Enter key triggers apply
   ['ip-input','pw-input'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => {
       if (e.key === 'Enter') applyReplace();
