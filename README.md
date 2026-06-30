@@ -18,7 +18,8 @@
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
 2. Open the demo website in **chorme browser: http://47.81.211.14 (Remember to change to your ip)
-3. Open Developer Tools (`F12` or Mac: `Cmd + Option + I`). In the **Network** tab, check **Disable cache**. Keep this panel open while refreshing to guarantee you fetch the latest server files.
+3. Everytime reflesh the website perform a **Hard Refresh** (`Ctrl + Shift + R` or Mac: `Cmd + Shift + R`) to force fresh files. Alternatively, open Developer Tools (`F12`), check **Disable cache** in the **Network** tab, and keep the panel open.
+
 
 
 ---
