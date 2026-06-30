@@ -1,5 +1,6 @@
 # Open Day Demo - Cloud Architecture & Web Development
 
+**Remanber to change the ip to your instant ip**
 ## Check List / Reminders (Do Once After Each Demo!!)
 
 ### Demo Computer (PC 2):
