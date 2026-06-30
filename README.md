@@ -30,8 +30,7 @@
 | Min 1 | Hook: Open with familiar app logos (WhatsApp etc.), ask what they have in common | / |
 | Min 2 | What Is the Cloud?: Explain architecture (laptop -> server -> devices) and show AWS global map. | / |
 | Min 3 | The Server Is Alive: Access Ubuntu server, check status, load default nginx page. | 1. `sudo systemctl start nginx && sudo systemctl status nginx`<br/>2. `Press 'q' to exit status view` |
-| Min 3 (con't) | Prepare directory for deployment. | 1. `cd /var/www/ && rm -r album1` |
-| Min 4 | Launching the Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/ && sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
+| Min 3 (con't) - Min 4 | Prepare directory and Launch Photo Album: Present QR code and link for audience to scan and view on phones. | 1. `cd /var/www/ && sudo rm -rf album1 && sudo git clone https://github.com/ngsanluk/bootstrap-album /var/www/album1` |
 | Min 5 | Change 1 (Change background): Navigate to css folder, download new background style, refresh website. | 1. `cd /var/www/album1/css && wget -O style.css https://raw.githubusercontent.com/SEEDWanda/CCDemo/main/style.css` |
 | Min 6 | Change 2 (Replace photos, add music): Download new images from GitHub and overwrite index.html with the music version, then refresh website. | 1. `sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/demo-assets && sudo cp -r /tmp/demo-assets/SupportDoc/* /var/www/album1/images/ && sudo rm -rf /tmp/demo-assets`<br/>2. `cd /var/www/album1 && sudo wget -O index.html https://raw.githubusercontent.com/PercyChengS/Open-Day-Demo/main/SupportDoc/index_v2_Photo_music.html` |
 | Min 7 | Change 3 (Add weather forecast): Download and overwrite index.html with HKO public API version, then refresh website. | 1. `cd /var/www/album1 && sudo wget -O index.html https://raw.githubusercontent.com/PercyChengS/Open-Day-Demo/main/SupportDoc/index_v3_weather.html` |
