@@ -73,88 +73,8 @@ Replace the whole code with the following in `/var/www/album1/index.html`
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./css/style.css" />
-    <style>
-      /* QR Toggle Wrapper */
-      #qr-toggle-wrap {
-        position: fixed;
-        top: 16px;
-        right: 16px;
-        z-index: 99999;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-      }
-
-      /* Toggle Button */
-      #qr-btn {
-        background: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        cursor: pointer;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.14);
-        font-size: 1.4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      #qr-btn:active {
-        transform: scale(0.92);
-        box-shadow: 0 1px 4px rgba(0,0,0,0.18);
-      }
-
-      /* QR Code Panel */
-      #qrcode-corner {
-        display: none;
-        margin-top: 10px;
-        width: 150px;
-        height: 150px;
-        border-radius: 12px;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.28), 0 1.5px 4px rgba(0,0,0,0.14);
-        background: #fff;
-        padding: 6px;
-        object-fit: contain;
-        /* Animate open/close */
-        animation: qr-fadein 0.18s ease;
-      }
-
-      @keyframes qr-fadein {
-        from { opacity: 0; transform: translateY(-8px) scale(0.95); }
-        to   { opacity: 1; transform: translateY(0) scale(1); }
-      }
-
-      /* On larger screens, show QR by default */
-      @media (min-width: 768px) {
-        #qrcode-corner {
-          display: block;
-        }
-        #qr-btn {
-          display: none;
-        }
-      }
-    </style>
   </head>
   <body>
-
-    <!-- QR Code: Toggle on mobile, always visible on desktop -->
-    <div id="qr-toggle-wrap">
-      <!-- Toggle button (mobile only) -->
-      <button id="qr-btn" onclick="toggleQR()" aria-label="顯示 QR Code" title="Show QR Code">
-        🔎
-      </button>
-      <!-- QR Code image -->
-      <img
-        id="qrcode-corner"
-        src="./images/qrcode.png"
-        alt="QR Code"
-        width="150"
-        height="150"
-      />
-    </div>
 
     <h1>Photo Album Demo</h1>
 
@@ -237,52 +157,12 @@ Replace the whole code with the following in `/var/www/album1/index.html`
       crossorigin="anonymous"
     ></script>
 
-    <!-- ===== QR TOGGLE JS ===== -->
-    <script>
-      let qrOpen = false;
-
-      function toggleQR() {
-        const qr  = document.getElementById('qrcode-corner');
-        const btn = document.getElementById('qr-btn');
-        qrOpen = !qrOpen;
-
-        if (qrOpen) {
-          qr.style.display = 'block';
-          // Re-trigger animation
-          qr.style.animation = 'none';
-          qr.offsetHeight; // reflow
-          qr.style.animation = '';
-          btn.textContent = '✕';
-          btn.setAttribute('aria-label', '關閉 QR Code');
-        } else {
-          qr.style.display = 'none';
-          btn.textContent = '📷';
-          btn.setAttribute('aria-label', '顯示 QR Code');
-        }
-      }
-
-      // Close QR panel if user resizes to desktop (≥768px)
-      window.addEventListener('resize', function () {
-        const qr  = document.getElementById('qrcode-corner');
-        const btn = document.getElementById('qr-btn');
-        if (window.innerWidth >= 768) {
-          qr.style.display = 'block';
-          btn.style.display = 'none';
-          qrOpen = true;
-        } else {
-          btn.style.display = 'flex';
-          if (!qrOpen) qr.style.display = 'none';
-        }
-      });
-    </script>
-
     <!-- ===== MUSIC JS START ===== -->
     <script>
       const audio = document.getElementById('bgMusic');
       const btn = document.getElementById('musicToggle');
       let isPlaying = false;
 
-      // 第一次任何點擊 → 解除靜音並自動播放（視為默認 ON）
       document.addEventListener('click', function startOnInteraction() {
         audio.muted = false;
         audio.play().then(() => {
