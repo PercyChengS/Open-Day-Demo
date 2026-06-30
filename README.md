@@ -4,7 +4,7 @@
 ## Check List / Reminders
 
 ### Demo Computer (PC 2):
-1. Terminal (Open two tabs)
+1. Terminal 
 2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) or the html notes downloaded(readme-viewer.html) ready to copy the code
 3. Login:
    - 3.1. `ssh root@47.81.211.14`
