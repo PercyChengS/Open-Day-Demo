@@ -5,7 +5,7 @@
 
 ### Demo Computer (PC 2):
 1. Terminal (Open two tabs)
-2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) ready to copy the code
+2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) or the html notes downloaded(readme-viewer.html) ready to copy the code
 3. Login:
    - 3.1. `ssh root@47.81.211.14`
    - 3.2. Password: `S33D!Eatt0Fun`
@@ -13,7 +13,7 @@
    ```bash
    cd /var/www && rm -r album1 && sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo && sudo systemctl stop nginx
    ```
-5. Ensure the local computer `$env:USERPROFILE/Downloads/SupportDoc` has the demo photos installed from the GitHub repository. Download from https://github.com/PercyChengS/Open-Day-Demo/tree/main
+5. Ensure the local computer `$env:USERPROFILE/Downloads/SupportDoc` has the demo photos installed from the GitHub repository. Download from https://github.com/PercyChengS/Open-Day-Demo/tree/main (pull the SupportDoc from the downloaded zip to /Downloads)
 
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
