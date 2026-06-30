@@ -1,7 +1,7 @@
 # Open Day Demo - Cloud Architecture & Web Development
 
 **Remanber to change the ip to your instant ip**
-## Check List / Reminders (Do Once After Each Demo!!)
+## Check List / Reminders
 
 ### Demo Computer (PC 2):
 1. Terminal (Open two tabs)
@@ -9,7 +9,7 @@
 3. Login:
    - 3.1. `ssh root@47.81.211.14`
    - 3.2. Password: `S33D!Eatt0Fun`
-4. Restore the demo:
+4. Restore the demo:  (Do Once After Each Demo!!)
    ```bash
    cd /var/www && rm -r album1 && sudo git clone https://github.com/PercyChengS/Open-Day-Demo.git /tmp/open-day-demo && sudo cp -r /tmp/open-day-demo/album1/. /var/www/album1 && sudo rm -rf /tmp/open-day-demo && sudo systemctl stop nginx
    ```
