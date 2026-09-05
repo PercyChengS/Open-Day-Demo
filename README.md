@@ -7,7 +7,7 @@
 1. Terminal 
 2. Open GitHub (https://github.com/PercyChengS/Open-Day-Demo/tree/main) or the html notes downloaded(readme-viewer.html) ready to copy the code
 3. Login:
-   - 3.1. `ssh root@47.250.119.159`
+   - 3.1. `ssh root@ur_ip`
    - 3.2. Password: `S33D!Eatt0Fun`
 4. Restore the demo:  (Do Once After Each Demo!!)
    ```bash
@@ -16,7 +16,7 @@
 
 ### PPT Computer (PC 1):
 1. Open the PPT presentation
-2. Open the demo website in **chorme browser: http://47.250.119.159 (Remember to change to your ip)
+2. Open the demo website in **chorme browser: http://ur_ip (Remember to change to your ip)
 3. Everytime refresh the website perform a **Hard Refresh** (`Ctrl + Shift + R` or Mac: `Cmd + Shift + R`) to force fresh files. Alternatively, open Developer Tools (`F12`), check **Disable cache** in the **Network** tab, and keep the panel open.
 
 
