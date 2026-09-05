@@ -52,7 +52,7 @@ This demo showcases fundamental cloud architecture and web development concepts 
 
 ---
 
-<!-- ## How to Customize
+## How to Customize
 
 ---
 
@@ -773,7 +773,7 @@ Insert behind <!-- ===== MUSIC PART END ===== -->
   }
 </script>
 <!-- ===== FIREBASE CHAT END ===== -->
--->
+
 ```
 
 
