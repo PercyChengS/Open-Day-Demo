@@ -105,6 +105,9 @@ body, head {
   color: transparent;
 }
 
+/* MODIFIED: added z-index: -1 and pointer-events: none so this
+   decorative animation no longer sits above interactive elements
+   (buttons, links, images) and no longer blocks clicks. */
 head::before, head::after,
 body::before, body::after {
   position: fixed;
@@ -115,6 +118,8 @@ body::before, body::after {
   content: 'V';
   mix-blend-mode: screen;
   animation: 44s -27s move infinite ease-in-out alternate;
+  z-index: -1;
+  pointer-events: none;
 }
 
 body::before {
@@ -309,3 +314,4 @@ head::after {
     transform: rotate(360deg) scale(18) translateX(20px);
   }
 }
+</content>
