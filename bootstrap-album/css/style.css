@@ -1,0 +1,11 @@
+body {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+div img {
+  border: solid 1px grey;
+  padding: 20px;
+  margin: 10px;
+}
