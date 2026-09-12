@@ -21,8 +21,11 @@
         }
 
         body {
-            width: 35em;
+            width: 100%;
+            max-width: 35em;
             margin: 0 auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
             font-family: Tahoma, Verdana, Arial, sans-serif;
             font-size: var(--text-base);
             line-height: 1.7;
@@ -31,10 +34,30 @@
         h1 {
             font-size: var(--text-xl);
         }
+
+        .refresh-container {
+            padding-top: 0.75rem;
+        }
+
+        .refresh-container .btn {
+            width: 100%;
+            max-width: 200px;
+        }
+
+        @media (max-width: 480px) {
+            .refresh-container {
+                text-align: center;
+            }
+
+            .refresh-container .btn {
+                width: 100%;
+                max-width: none;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container text-end mt-3 refresh-container">
+    <div class="container-fluid text-end mt-3 refresh-container">
       <button type="button" class="btn btn-primary shadow-sm" onclick="hardRefresh()">刷新頁面</button>
     </div>
 
