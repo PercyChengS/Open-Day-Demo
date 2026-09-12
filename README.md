@@ -52,7 +52,20 @@ This demo showcases fundamental cloud architecture and web development concepts 
 
 ---
 
-## How to Customize
+### Fix: Disable Browser Cache So Audience Sees Updates Without Manual Refresh
+
+Applies the pre-built nginx config (`nginx-default-album1.conf`) from the repo, which sets `Cache-Control: no-store, no-cache` on `index.html`/`css`/`js` so phones always fetch the latest version after each `wget -O` step.
+
+```bash
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak && \
+sudo wget -O /etc/nginx/sites-available/default https://raw.githubusercontent.com/PercyChengS/Open-Day-Demo/main/nginx-default-album1.conf && \
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+- Backs up the existing config to `default.bak` first.
+- Downloads the no-cache config directly from GitHub raw and overwrites `/etc/nginx/sites-available/default`.
+- `nginx -t` validates syntax before `reload`, so a bad download won't take nginx down.
+- Run this once before Min 3, so all later Change steps (Min 5–8) show up instantly on audience phones.
 
 ---
 
